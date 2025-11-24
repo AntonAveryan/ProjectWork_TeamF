@@ -1,25 +1,16 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="cv-header">
-  <div class="cv-logo">CareerVision</div>
-  <div class="cv-nav">
-    <a class="cv-nav-pill" href="{% url 'landing' %}">Home</a>
-    <a class="cv-nav-pill" href="{% url 'landing' %}#how">How it works</a>
-    <a class="cv-nav-pill" href="#">Pricing</a>
-    <a class="cv-nav-pill" href="#">Sign in</a>
-  </div>
-</div>
-
-<div class="cv-card cv-card-landing">
+<div class="cv-card">
   <div class="cv-card-title-wrap">
     <h1 class="cv-title">Discover Your Potential</h1>
     <p class="cv-subtitle">
-      Soft AI-powered career guidance in a everchanging world.
+      Soft AI-powered career guidance in an everchanging world.
     </p>
   </div>
 
   <div class="cv-card-content-row">
+    <!-- LEFT TEXT -->
     <div class="cv-card-left">
       <h2 class="cv-section-title">What you need to do:</h2>
       <p class="cv-body-text">
@@ -32,6 +23,7 @@
       </ol>
     </div>
 
+    <!-- RIGHT BUTTON -->
     <div class="cv-card-right">
       <a href="{% url 'chat' %}" class="cv-primary-btn cv-primary-btn-big">
         Start now →

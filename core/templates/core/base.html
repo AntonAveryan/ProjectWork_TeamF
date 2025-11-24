@@ -9,6 +9,18 @@
 </head>
 <body class="cv-body">
   <div class="cv-page-wrapper">
+
+    <!-- GLOBAL HEADER / NAV -->
+    <div class="cv-header">
+      <div class="cv-logo">CareerVision</div>
+      <div class="cv-nav">
+        <a href="{% url 'landing' %}" class="cv-nav-pill">Home</a>
+        <a href="{% url 'how_it_works' %}" class="cv-nav-pill">How it works</a>
+        <a href="{% url 'pricing' %}" class="cv-nav-pill">Pricing</a>
+        <a href="#" class="cv-nav-pill">Sign in</a>
+      </div>
+    </div>
+
     {% block content %}{% endblock %}
 
     <footer class="cv-footer">

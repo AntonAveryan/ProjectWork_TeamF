@@ -1,0 +1,100 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="cv-card">
+  <div class="cv-card-title-wrap">
+    <h1 class="cv-title">How it works</h1>
+    <p class="cv-subtitle">
+      Find clarity in a world full of choices. Let AI guide your next career step with confidence.
+    </p>
+  </div>
+
+  <!-- For whom section -->
+  <div class="cv-hiw-section">
+    <h2 class="cv-section-title">Who is CareerVision for?</h2>
+    <p class="cv-body-text">
+      Career paths today are rarely linear. We built CareerVision for people who feel a bit lost,
+      overwhelmed by options, or simply curious what else they could do with their skills.
+    </p>
+
+    <div class="cv-hiw-grid">
+      <div class="cv-hiw-card">
+        <h3 class="cv-hiw-title">Students</h3>
+        <p class="cv-hiw-text">
+          You’re just starting out — we help you choose a direction that matches your potential, not just your degree.
+        </p>
+      </div>
+
+      <div class="cv-hiw-card">
+        <h3 class="cv-hiw-title">Graduates</h3>
+        <p class="cv-hiw-text">
+          Show the world what you’re capable of. Our AI highlights your strengths and turns them into career opportunities.
+        </p>
+      </div>
+
+      <div class="cv-hiw-card">
+        <h3 class="cv-hiw-title">Career switchers</h3>
+        <p class="cv-hiw-text">
+          Changing paths is hard. We make it easier by translating your past experience into future roles.
+        </p>
+      </div>
+
+      <div class="cv-hiw-card">
+        <h3 class="cv-hiw-title">Internships & junior roles</h3>
+        <p class="cv-hiw-text">
+          No experience? No problem. We focus on skills, motivation, and hidden strengths — not job titles.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steps section -->
+  <div class="cv-hiw-section">
+    <h2 class="cv-section-title">What happens behind the scenes?</h2>
+
+    <div class="cv-steps-row">
+      <div class="cv-step-card">
+        <div class="cv-step-number">1</div>
+        <h3 class="cv-hiw-title">Upload your CV</h3>
+        <p class="cv-hiw-text">
+          Your background is more powerful than you think. We read your experience, skills, and patterns.
+        </p>
+      </div>
+
+      <div class="cv-step-card">
+        <div class="cv-step-number">2</div>
+        <h3 class="cv-hiw-title">AI analysis</h3>
+        <p class="cv-hiw-text">
+          Our model finds strengths, transferable skills, and suitable roles — instantly.
+        </p>
+      </div>
+
+      <div class="cv-step-card">
+        <div class="cv-step-number">3</div>
+        <h3 class="cv-hiw-title">Chat with your AI advisor</h3>
+        <p class="cv-hiw-text">
+          Ask anything: skills, weaknesses, what to improve, what roles fit you best.
+        </p>
+      </div>
+
+      <div class="cv-step-card">
+        <div class="cv-step-number">4</div>
+        <h3 class="cv-hiw-title">Tailored job suggestions</h3>
+        <p class="cv-hiw-text">
+          Based on your profile, we show real positions that match your goals and skill set.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closing & CTA -->
+  <div class="cv-hiw-section cv-hiw-center">
+    <p class="cv-hiw-closing">
+      Everyone deserves a career that feels right. Let’s help you find yours.
+    </p>
+    <a href="{% url 'landing' %}" class="cv-primary-btn cv-primary-btn-big">
+      Start now →
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -544,3 +544,99 @@ body.cv-body::before {
     max-width: 90%;
   }
 }
+.cv-hiw-section {
+  margin-top: 28px;
+}
+
+.cv-hiw-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.cv-hiw-card {
+  background: #fff7f3;
+  border-radius: 18px;
+  padding: 14px 16px;
+  border: 1px solid #ffe0d2;
+}
+
+.cv-hiw-title {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cv-hiw-text {
+  margin: 0;
+  font-size: 14px;
+  color: #7b6660;
+}
+
+.cv-steps-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.cv-step-card {
+  background: #fffaf6;
+  border-radius: 18px;
+  padding: 14px 16px;
+  border: 1px solid #ffe0d2;
+}
+
+.cv-step-number {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background: #ffd9c2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cv-hiw-center {
+  text-align: center;
+}
+
+.cv-hiw-closing {
+  margin: 24px 0 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #5d4941;
+}
+
+.cv-pricing-card {
+  max-width: 540px;
+  margin: 18px auto;
+}
+
+.cv-link {
+  color: #ff7b93;
+  text-decoration: none;
+}
+
+.cv-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .cv-hiw-grid {
+    grid-template-columns: 1fr;
+  }
+  .cv-steps-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .cv-steps-row {
+    grid-template-columns: 1fr;
+  }
+}
