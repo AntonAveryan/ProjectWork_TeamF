@@ -524,26 +524,8 @@ body.cv-body::before {
   flex: 1;
 }
 
-/* ====== RESPONSIVE ====== */
+/* ====== HOW IT WORKS / PRICING EXTRA STYLES ====== */
 
-@media (max-width: 900px) {
-  .cv-card-content-row {
-    flex-direction: column;
-  }
-
-  .cv-job-card {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .cv-job-actions {
-    justify-content: flex-end;
-  }
-
-  .cv-modal {
-    max-width: 90%;
-  }
-}
 .cv-hiw-section {
   margin-top: 28px;
 }
@@ -626,47 +608,175 @@ body.cv-body::before {
   text-decoration: underline;
 }
 
-/* Кнопка сверху для Back to start / Back to chat */
-.cv-page-top-btn-wrap {
-  margin-top: 24px;
-  display: flex;
-  justify-content: flex-end;
-}
 /* ============================
    MINI BACK LINK INSIDE CARD
    ============================ */
 
 .cv-card-top-row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-left: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-left: 10px;
 }
 
 .cv-back-link {
-    font-size: 15px;
-    color: rgba(50, 50, 50, 0.55);
-    text-decoration: none;
-    transition: 0.2s ease;
-    font-weight: 400;
+  font-size: 15px;
+  color: rgba(50, 50, 50, 0.55);
+  text-decoration: none;
+  transition: 0.2s ease;
+  font-weight: 400;
 }
 
 .cv-back-link:hover {
-    color: rgba(30, 30, 30, 0.9);
-    text-decoration: underline;
+  color: rgba(30, 30, 30, 0.9);
+  text-decoration: underline;
 }
 
 /* Make sure the top row sits close to the top of card */
 .cv-card-positions,
 .cv-card-chat {
-    padding-top: 25px !important;
+  padding-top: 25px !important;
 }
 
+/* ====== AUTH MODAL (SIGN IN) ====== */
+
+.cv-auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.cv-auth-overlay.show {
+  display: flex;
+}
+
+.cv-auth-modal {
+  background: #fffaf6;
+  border-radius: 24px;
+  padding: 24px 26px 20px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.cv-auth-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: #7b6660;
+}
+
+.cv-auth-title {
+  margin: 8px 0 4px;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+}
+
+.cv-auth-subtitle {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #7b6660;
+}
+
+.cv-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cv-auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #7b6660;
+}
+
+.cv-auth-field span {
+  font-size: 13px;
+}
+
+.cv-auth-field input {
+  border-radius: 999px;
+  border: 1px solid #f2d4c6;
+  padding: 8px 14px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.cv-auth-field input:focus {
+  border-color: #ff9e7a;
+  box-shadow: 0 0 0 2px rgba(255, 158, 122, 0.2);
+}
+
+.cv-auth-submit {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.cv-auth-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.cv-link-like {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 13px;
+  color: #ff7b93;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cv-link-like:hover {
+  text-decoration: underline;
+}
+
+.cv-auth-note {
+  margin: 0;
+  font-size: 12px;
+  color: #a1887a;
+}
+
+/* ====== RESPONSIVE ====== */
+
 @media (max-width: 900px) {
+  .cv-card-content-row {
+    flex-direction: column;
+  }
+
+  .cv-job-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cv-job-actions {
+    justify-content: flex-end;
+  }
+
+  .cv-modal {
+    max-width: 90%;
+  }
+
   .cv-hiw-grid {
     grid-template-columns: 1fr;
   }
+
   .cv-steps-row {
     grid-template-columns: 1fr 1fr;
   }
