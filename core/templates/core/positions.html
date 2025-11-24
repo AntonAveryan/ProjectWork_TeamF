@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="cv-header">
@@ -11,46 +12,98 @@
 <div class="cv-card cv-card-positions">
   <div class="cv-card-title-wrap">
     <h1 class="cv-title">Position perfectly suits you</h1>
-    <p class="cv-subtitle">
-      Find positions easier
-    </p>
+    <p class="cv-subtitle">Find positions easier</p>
   </div>
 
   <div class="cv-positions-toolbar">
     <div class="cv-positions-title">LinkedIn Job Listing</div>
     <div class="cv-positions-buttons">
-      <button class="cv-secondary-btn">Sort</button>
-      <button class="cv-secondary-btn">Refresh</button>
-      <button class="cv-secondary-btn">Favorites</button>
+      <button id="sortBtn" class="cv-secondary-btn cv-toolbar-btn">Sort</button>
+      <button id="refreshBtn" class="cv-secondary-btn cv-toolbar-btn">Refresh</button>
+      <button id="favoritesBtn" class="cv-secondary-btn cv-toolbar-btn">Favorites</button>
     </div>
   </div>
 
-  <div class="cv-job-list">
+  <div id="jobList" class="cv-job-list">
     {% for job in jobs %}
-      <div class="cv-job-card">
+      <div class="cv-job-card"
+           data-job-id="{{ job.id }}"
+           data-company="{{ job.company }}"
+           data-level="{{ job.level }}"
+           data-mode="{{ job.mode }}"
+           data-date="{{ job.date_posted }}">
         <div class="cv-job-main">
-          <div class="cv-job-logo">
-            {{ job.company|first }}
-          </div>
+          <div class="cv-job-logo">{{ job.company|slice:":3" }}</div>
           <div class="cv-job-info">
-            <div class="cv-job-title">
-              {{ job.title }}, {{ job.company }}, {{ job.location }}
-            </div>
+            <div class="cv-job-title">{{ job.title }}, {{ job.company }}, {{ job.location }}</div>
             <div class="cv-job-desc">
               {{ job.description }} <span class="cv-job-more">more…</span>
             </div>
           </div>
         </div>
+
         <div class="cv-job-actions">
-          <button class="cv-fav-btn">☆</button>
-          <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">
-            Apply →
-          </a>
+          <button class="cv-fav-btn" type="button" data-job-id="{{ job.id }}">☆</button>
+          <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">Apply →</a>
         </div>
       </div>
-    {% empty %}
-      <p>No jobs found yet. Try to refresh or update your CV.</p>
     {% endfor %}
   </div>
 </div>
+
+<!-- SORT/FILTER MODAL -->
+<div id="sortModal" class="cv-modal-overlay">
+  <div class="cv-modal">
+    <div class="cv-modal-content">
+
+      <div class="cv-modal-row">
+        <label class="cv-pill-select">
+          <span>Date posted</span>
+          <select id="sortDateSelect">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </label>
+
+        <label class="cv-pill-select">
+          <span>Experience level</span>
+          <select id="levelSelect">
+            <option value="">Any</option>
+            <option value="Junior">Junior</option>
+            <option value="Mid">Mid</option>
+            <option value="Senior">Senior</option>
+          </select>
+        </label>
+
+        <label class="cv-pill-select">
+          <span>Company</span>
+          <select id="companySelect">
+            <option value="">Any</option>
+            <option value="SAP">SAP</option>
+          </select>
+        </label>
+
+        <label class="cv-pill-select">
+          <span>Remote</span>
+          <select id="modeSelect">
+            <option value="">Any</option>
+            <option value="On-site">On-site</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Remote">Remote</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="cv-modal-footer">
+      <button id="clearFilterBtn" class="cv-secondary-btn cv-modal-footer-btn">Clear all</button>
+      <button id="applyFilterBtn" class="cv-primary-btn cv-modal-footer-btn">Apply filter</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'core/positions.js' %}"></script>
 {% endblock %}
