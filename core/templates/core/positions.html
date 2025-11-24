@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="cv-header">
+  <div class="cv-logo">CareerVision</div>
+  <a href="{% url 'chat' %}" class="cv-primary-btn cv-header-btn">
+    Back to chat
+  </a>
+</div>
+
+<div class="cv-card cv-card-positions">
+  <div class="cv-card-title-wrap">
+    <h1 class="cv-title">Position perfectly suits you</h1>
+    <p class="cv-subtitle">
+      Find positions easier
+    </p>
+  </div>
+
+  <div class="cv-positions-toolbar">
+    <div class="cv-positions-title">LinkedIn Job Listing</div>
+    <div class="cv-positions-buttons">
+      <button class="cv-secondary-btn">Sort</button>
+      <button class="cv-secondary-btn">Refresh</button>
+      <button class="cv-secondary-btn">Favorites</button>
+    </div>
+  </div>
+
+  <div class="cv-job-list">
+    {% for job in jobs %}
+      <div class="cv-job-card">
+        <div class="cv-job-main">
+          <div class="cv-job-logo">
+            {{ job.company|first }}
+          </div>
+          <div class="cv-job-info">
+            <div class="cv-job-title">
+              {{ job.title }}, {{ job.company }}, {{ job.location }}
+            </div>
+            <div class="cv-job-desc">
+              {{ job.description }} <span class="cv-job-more">more…</span>
+            </div>
+          </div>
+        </div>
+        <div class="cv-job-actions">
+          <button class="cv-fav-btn">☆</button>
+          <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">
+            Apply →
+          </a>
+        </div>
+      </div>
+    {% empty %}
+      <p>No jobs found yet. Try to refresh or update your CV.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
