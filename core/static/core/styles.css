@@ -471,14 +471,16 @@ body.cv-body::before {
 }
 
 .cv-pill-select {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
   background: #ffffff;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 13px;
   flex: 1 1 45%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
 .cv-pill-select span {
@@ -486,12 +488,42 @@ body.cv-body::before {
   color: #7b6660;
 }
 
+/* сам селект — убираем системный вид, делаем ровно */
 .cv-pill-select select {
   border: none;
   background: transparent;
   outline: none;
   font-size: 14px;
+  padding: 2px 26px 2px 0;
+  cursor: pointer;
+
+  /* убираем стандартную стрелку в разных браузерах */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
+
+/* кастомная стрелочка */
+.cv-pill-select::after {
+  content: "▾";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(4%);
+  font-size: 12px;
+  color: #b08b7b;
+  pointer-events: none;
+}
+
+/* лёгкий фокус, чтобы красиво подсвечивалось */
+.cv-pill-select select:focus {
+  outline: none;
+}
+
+.cv-pill-select:focus-within {
+  box-shadow: 0 0 0 2px rgba(255, 158, 122, 0.35);
+}
+
 
 .cv-modal-checkboxes {
   display: flex;
