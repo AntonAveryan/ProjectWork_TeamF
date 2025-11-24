@@ -1,14 +1,15 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="cv-header">
-  <div class="cv-logo">CareerVision</div>
-  <a href="{% url 'landing' %}" class="cv-primary-btn cv-header-btn">
-    Back to start
-  </a>
-</div>
-
 <div class="cv-card cv-card-chat">
+
+  <!-- маленький back-линк внутри карточки -->
+  <div class="cv-card-top-row">
+    <a href="{% url 'landing' %}" class="cv-back-link">
+      ← Back to start
+    </a>
+  </div>
+
   <div class="cv-card-title-wrap">
     <h1 class="cv-title">Dont be shy – ask questions</h1>
     <p class="cv-subtitle">
@@ -17,35 +18,32 @@
   </div>
 
   <div class="cv-chat-window">
-    <!-- сообщение пользователя -->
+    <!-- пример диалога -->
     <div class="cv-chat-row cv-chat-row-user">
       <div class="cv-avatar cv-avatar-user">AA</div>
       <div class="cv-chat-bubble cv-chat-bubble-user">
-        📎 Analyze my CV that I uploaded earlier, please
+        Analyze my CV that I uploaded earlier, please.
       </div>
     </div>
 
-    <!-- ответ ИИ -->
     <div class="cv-chat-row cv-chat-row-ai">
       <div class="cv-chat-bubble cv-chat-bubble-ai">
         <p class="cv-chat-heading">
           We have analysed your CV file and have options for you…
         </p>
         <p>
-          Your studies and experience show that you might be a perfect fit
-          for IT-support positions. We have already found a couple nice
-          positions that suit you perfectly, but if you would like to clarify
-          more your experience or understand where you have skill issues,
-          welcome to ask further questions.
+          Your studies and experience show that you might be a perfect fit for IT-support positions.
+          We have already found a couple nice positions that suit you perfectly, but if you would like to
+          clarify more your experience or understand where you have skill issues, you&#39;re welcome to ask
+          further questions.
         </p>
-        <a href="{% url 'positions' %}" class="cv-secondary-btn cv-chat-inline-btn">
+        <a href="{% url 'positions' %}" class="cv-primary-btn cv-chat-inline-btn">
           To positions →
         </a>
       </div>
       <div class="cv-avatar cv-avatar-ai">AI</div>
     </div>
 
-    <!-- ещё один вопрос -->
     <div class="cv-chat-row cv-chat-row-user">
       <div class="cv-avatar cv-avatar-user">AA</div>
       <div class="cv-chat-bubble cv-chat-bubble-user">
@@ -53,11 +51,10 @@
       </div>
     </div>
 
-    <!-- длинный ответ ИИ -->
     <div class="cv-chat-row cv-chat-row-ai">
       <div class="cv-chat-bubble cv-chat-bubble-ai">
         <p class="cv-chat-heading">
-          Here is the steps what you need to do to be a great PM:
+          Here are the steps you need to take to be a great PM:
         </p>
         <ol class="cv-steps-list">
           <li>Know the user.</li>
@@ -70,21 +67,18 @@
           <li>Iterate forever.</li>
         </ol>
         <p>
-          That is the core competences that you need to excel to find a great
-          position. If you have any further question I may clarify all the
-          steps in details.
+          These are the core competencies you need to excel and find a strong position. If you have any
+          further questions I can clarify the steps in detail.
         </p>
       </div>
       <div class="cv-avatar cv-avatar-ai">AI</div>
     </div>
   </div>
 
-  <!-- input зона -->
-  <form class="cv-chat-input-row" method="post" action="#">
-    {% csrf_token %}
-    <button type="button" class="cv-upload-btn">＋ Upload CV</button>
+  <div class="cv-chat-input-row">
+    <button class="cv-upload-btn" type="button">+</button>
     <input class="cv-chat-input" type="text" placeholder="Upload your CV or ask any questions">
-    <button type="submit" class="cv-send-btn">→</button>
-  </form>
+    <button class="cv-send-btn" type="button">→</button>
+  </div>
 </div>
 {% endblock %}

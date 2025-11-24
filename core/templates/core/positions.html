@@ -2,14 +2,15 @@
 {% load static %}
 
 {% block content %}
-<div class="cv-header">
-  <div class="cv-logo">CareerVision</div>
-  <a href="{% url 'chat' %}" class="cv-primary-btn cv-header-btn">
-    Back to chat
-  </a>
-</div>
-
 <div class="cv-card cv-card-positions">
+
+  <!-- маленький back-линк внутри карточки -->
+  <div class="cv-card-top-row">
+    <a href="{% url 'chat' %}" class="cv-back-link">
+      ← Back to chat
+    </a>
+  </div>
+
   <div class="cv-card-title-wrap">
     <h1 class="cv-title">Position perfectly suits you</h1>
     <p class="cv-subtitle">Find positions easier</p>
@@ -33,20 +34,27 @@
            data-mode="{{ job.mode }}"
            data-date="{{ job.date_posted }}">
         <div class="cv-job-main">
-          <div class="cv-job-logo">{{ job.company|slice:":3" }}</div>
+          <div class="cv-job-logo">
+            {{ job.company|slice:":3" }}
+          </div>
           <div class="cv-job-info">
-            <div class="cv-job-title">{{ job.title }}, {{ job.company }}, {{ job.location }}</div>
+            <div class="cv-job-title">
+              {{ job.title }}, {{ job.company }}, {{ job.location }}
+            </div>
             <div class="cv-job-desc">
               {{ job.description }} <span class="cv-job-more">more…</span>
             </div>
           </div>
         </div>
-
         <div class="cv-job-actions">
           <button class="cv-fav-btn" type="button" data-job-id="{{ job.id }}">☆</button>
-          <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">Apply →</a>
+          <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">
+            Apply →
+          </a>
         </div>
       </div>
+    {% empty %}
+      <p>No jobs found yet. Try to refresh or update your CV.</p>
     {% endfor %}
   </div>
 </div>
@@ -101,7 +109,6 @@
     </div>
   </div>
 </div>
-
 {% endblock %}
 
 {% block extra_scripts %}
