@@ -1,16 +1,54 @@
-/* ====== BASE LAYOUT ====== */
+/* ====== BASE LAYOUT & BACKGROUND ====== */
+
+html {
+  background: #ffece1; /* однотонный фон под всем сайтом */
+}
 
 body.cv-body {
   margin: 0;
-  background: linear-gradient(#fff7f2, #ffece1);
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: #2f1b1a;
+  background: #ffece1;   /* без градиента, просто цвет */
+  position: relative;
 }
 
+/* фиксированная “дымка” снизу — не зависит от высоты контента */
+body.cv-body::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55vh; /* насколько высоко поднимается дымка */
+  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 247, 242, 0),  /* прозрачный вверху */
+    #ffe0cf                  /* насыщенный персиковый внизу */
+  );
+}
+
+/* основной контейнер страницы + прижимаем футер к низу */
 .cv-page-wrapper {
   max-width: 1160px;
   margin: 0 auto;
   padding: 40px 16px 80px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====== FOOTER ====== */
+
+.cv-footer {
+  margin-top: auto;              /* прижимает футер к низу при маленьком контенте */
+  padding-top: 16px;
+  padding-bottom: 8px;
+  text-align: center;
+  font-size: 13px;
+  color: #876e65;
+  opacity: 0.9;
 }
 
 /* ====== HEADER ====== */
