@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load static %}
+{% load static i18n %}
 
 {% block content %}
 <div class="cv-card cv-card-positions">
@@ -7,21 +7,21 @@
   <!-- маленький back-линк внутри карточки -->
   <div class="cv-card-top-row">
     <a href="{% url 'chat' %}" class="cv-back-link">
-      ← Back to chat
+      ← {% trans "Back to chat" %}
     </a>
   </div>
 
   <div class="cv-card-title-wrap">
-    <h1 class="cv-title">Position perfectly suits you</h1>
-    <p class="cv-subtitle">Find positions easier</p>
+    <h1 class="cv-title">{% trans "Position perfectly suits you" %}</h1>
+    <p class="cv-subtitle">{% trans "Find positions easier" %}</p>
   </div>
 
   <div class="cv-positions-toolbar">
-    <div class="cv-positions-title">LinkedIn Job Listing</div>
+    <div class="cv-positions-title">{% trans "LinkedIn Job Listing" %}</div>
     <div class="cv-positions-buttons">
-      <button id="sortBtn" class="cv-secondary-btn cv-toolbar-btn">Sort</button>
-      <button id="refreshBtn" class="cv-secondary-btn cv-toolbar-btn">Refresh</button>
-      <button id="favoritesBtn" class="cv-secondary-btn cv-toolbar-btn">Favorites</button>
+      <button id="sortBtn" class="cv-secondary-btn cv-toolbar-btn">{% trans "Sort" %}</button>
+      <button id="refreshBtn" class="cv-secondary-btn cv-toolbar-btn">{% trans "Refresh" %}</button>
+      <button id="favoritesBtn" class="cv-secondary-btn cv-toolbar-btn">{% trans "Favorites" %}</button>
     </div>
   </div>
 
@@ -42,19 +42,23 @@
               {{ job.title }}, {{ job.company }}, {{ job.location }}
             </div>
             <div class="cv-job-desc">
-              {{ job.description }} <span class="cv-job-more">more…</span>
+              {{ job.description }} <span class="cv-job-more">{% trans "more…" %}</span>
             </div>
           </div>
         </div>
         <div class="cv-job-actions">
           <button class="cv-fav-btn" type="button" data-job-id="{{ job.id }}">☆</button>
           <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">
-            Apply →
+            {% trans "Apply →" %}
           </a>
         </div>
       </div>
     {% empty %}
-      <p>No jobs found yet. Try to refresh or update your CV.</p>
+      <p>
+        {% blocktrans %}
+        No jobs found yet. Try to refresh or update your CV.
+        {% endblocktrans %}
+      </p>
     {% endfor %}
   </div>
 </div>
@@ -66,46 +70,50 @@
 
       <div class="cv-modal-row">
         <label class="cv-pill-select">
-          <span>Date posted</span>
+          <span>{% trans "Date posted" %}</span>
           <select id="sortDateSelect">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
+            <option value="newest">{% trans "Newest first" %}</option>
+            <option value="oldest">{% trans "Oldest first" %}</option>
           </select>
         </label>
 
         <label class="cv-pill-select">
-          <span>Experience level</span>
+          <span>{% trans "Experience level" %}</span>
           <select id="levelSelect">
-            <option value="">Any</option>
-            <option value="Junior">Junior</option>
-            <option value="Mid">Mid</option>
-            <option value="Senior">Senior</option>
+            <option value="">{% trans "Any" %}</option>
+            <option value="Junior">{% trans "Junior" %}</option>
+            <option value="Mid">{% trans "Mid" %}</option>
+            <option value="Senior">{% trans "Senior" %}</option>
           </select>
         </label>
 
         <label class="cv-pill-select">
-          <span>Company</span>
+          <span>{% trans "Company" %}</span>
           <select id="companySelect">
-            <option value="">Any</option>
+            <option value="">{% trans "Any" %}</option>
             <option value="SAP">SAP</option>
           </select>
         </label>
 
         <label class="cv-pill-select">
-          <span>Remote</span>
+          <span>{% trans "Remote" %}</span>
           <select id="modeSelect">
-            <option value="">Any</option>
-            <option value="On-site">On-site</option>
-            <option value="Hybrid">Hybrid</option>
-            <option value="Remote">Remote</option>
+            <option value="">{% trans "Any" %}</option>
+            <option value="On-site">{% trans "On-site" %}</option>
+            <option value="Hybrid">{% trans "Hybrid" %}</option>
+            <option value="Remote">{% trans "Remote" %}</option>
           </select>
         </label>
       </div>
     </div>
 
     <div class="cv-modal-footer">
-      <button id="clearFilterBtn" class="cv-secondary-btn cv-modal-footer-btn">Clear all</button>
-      <button id="applyFilterBtn" class="cv-primary-btn cv-modal-footer-btn">Apply filter</button>
+      <button id="clearFilterBtn" class="cv-secondary-btn cv-modal-footer-btn">
+        {% trans "Clear all" %}
+      </button>
+      <button id="applyFilterBtn" class="cv-primary-btn cv-modal-footer-btn">
+        {% trans "Apply filter" %}
+      </button>
     </div>
   </div>
 </div>

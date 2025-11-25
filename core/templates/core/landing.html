@@ -1,35 +1,38 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="cv-card">
   <div class="cv-card-title-wrap">
-    <h1 class="cv-title">Discover Your Potential</h1>
+    <h1 class="cv-title">{% trans "Discover Your Potential" %}</h1>
     <p class="cv-subtitle">
-      Soft AI-powered career guidance in an everchanging world.
+      {% trans "Soft AI-powered career guidance in an everchanging world." %}
     </p>
   </div>
 
   <div class="cv-card-content-row">
     <!-- LEFT TEXT -->
     <div class="cv-card-left">
-      <h2 class="cv-section-title">What you need to do:</h2>
+      <h2 class="cv-section-title">{% trans "What you need to do:" %}</h2>
       <p class="cv-body-text">
+        {% blocktrans %}
         Let the AI analyze your background and suggest the best career paths.
+        {% endblocktrans %}
       </p>
       <ol class="cv-steps-list">
-        <li>Upload your resume or write about yourself.</li>
-        <li>AI analyzes your skills and strengths.</li>
-        <li>You get personal career suggestions.</li>
+        <li>{% trans "Upload your resume or write about yourself." %}</li>
+        <li>{% trans "AI analyzes your skills and strengths." %}</li>
+        <li>{% trans "You get personal career suggestions." %}</li>
       </ol>
     </div>
 
     <!-- RIGHT BUTTON -->
     <div class="cv-card-right">
       <a href="{% url 'chat' %}" class="cv-primary-btn cv-primary-btn-big">
-        Start now →
+        {% trans "Start now →" %}
       </a>
       <p class="cv-note">
-        No spam. No adds. Just clarity.
+        {% trans "No spam. No adds. Just clarity." %}
       </p>
     </div>
   </div>

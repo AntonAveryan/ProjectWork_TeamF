@@ -33,10 +33,10 @@
           </form>
         </div>
 
-        <a href="{% url 'landing' %}" class="cv-nav-pill">Home</a>
-        <a href="{% url 'how_it_works' %}" class="cv-nav-pill">How it works</a>
-        <a href="{% url 'pricing' %}" class="cv-nav-pill">Pricing</a>
-        <a href="#" id="cv-signin-open" class="cv-nav-pill">Sign in</a>
+        <a href="{% url 'landing' %}" class="cv-nav-pill">{% trans "Home" %}</a>
+        <a href="{% url 'how_it_works' %}" class="cv-nav-pill">{% trans "How it works" %}</a>
+        <a href="{% url 'pricing' %}" class="cv-nav-pill">{% trans "Pricing" %}</a>
+        <a href="#" id="cv-signin-open" class="cv-nav-pill">{% trans "Sign in" %}</a>
       </div>
     </div>
 
@@ -45,43 +45,45 @@
     <!-- SIGN IN MODAL -->
     <div id="cv-auth-overlay" class="cv-auth-overlay">
       <div class="cv-auth-modal">
-        <button class="cv-auth-close" id="cv-auth-close" aria-label="Close sign in">×</button>
+        <button class="cv-auth-close" id="cv-auth-close" aria-label="{% trans 'Close sign in' %}">×</button>
 
-        <h2 class="cv-auth-title">Sign in</h2>
+        <h2 class="cv-auth-title">{% trans "Sign in" %}</h2>
         <p class="cv-auth-subtitle">
-          Come back to your AI-powered career space.
+          {% trans "Come back to your AI-powered career space." %}
         </p>
 
         <form class="cv-auth-form">
           <label class="cv-auth-field">
-            <span>Email</span>
-            <input type="email" placeholder="you@example.com" required>
+            <span>{% trans "Email" %}</span>
+            <input type="email" placeholder="{% trans 'you@example.com' %}" required>
           </label>
 
           <label class="cv-auth-field">
-            <span>Password</span>
+            <span>{% trans "Password" %}</span>
             <input type="password" placeholder="••••••••" required>
           </label>
 
           <button type="submit" class="cv-primary-btn cv-auth-submit">
-            Sign in
+            {% trans "Sign in" %}
           </button>
         </form>
 
         <div class="cv-auth-links">
-          <button type="button" class="cv-link-like">Register</button>
-          <button type="button" class="cv-link-like">Forgot password?</button>
+          <button type="button" class="cv-link-like">{% trans "Register" %}</button>
+          <button type="button" class="cv-link-like">{% trans "Forgot password?" %}</button>
         </div>
 
         <p class="cv-auth-note">
-          Demo mode only — no real accounts yet.
+          {% trans "Demo mode only — no real accounts yet." %}
         </p>
       </div>
     </div>
 
+    <!-- FOOTER (без перевода — как ты просил) -->
     <footer class="cv-footer">
       © 2025 CareerVision · Figma Mock Edition
     </footer>
+
   </div>
 
   <!-- глобальный скрипт логина -->

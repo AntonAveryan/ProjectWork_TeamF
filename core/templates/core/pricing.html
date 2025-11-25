@@ -1,31 +1,42 @@
 {% extends 'core/base.html' %}
+{% load i18n %}
 
 {% block content %}
 <div class="cv-card">
   <div class="cv-card-title-wrap">
-    <h1 class="cv-title">Pricing</h1>
+    <h1 class="cv-title">{% trans "Pricing" %}</h1>
     <p class="cv-subtitle">
-      Right now, CareerVision is in a testing & learning phase.
+      {% trans "Right now, CareerVision is in a testing & learning phase." %}
     </p>
   </div>
 
   <div class="cv-hiw-section cv-hiw-center">
-    <h2 class="cv-section-title">Beta mode. No paywall. No subscription.</h2>
+    <h2 class="cv-section-title">
+      {% trans "Beta mode. No paywall. No subscription." %}
+    </h2>
+
     <p class="cv-body-text">
-      We&#39;re building CareerVision as a project to explore how AI can support real people<br>
+      {% blocktrans %}
+      We're building CareerVision as a project to explore how AI can support real people
       making real career decisions — especially students, graduates, and early-career professionals.
+      {% endblocktrans %}
     </p>
 
     <div class="cv-hiw-card cv-pricing-card">
-      <h3 class="cv-hiw-title">Current status: Free to use</h3>
+      <h3 class="cv-hiw-title">{% trans "Current status: Free to use" %}</h3>
+
       <ul class="cv-steps-list">
-        <li>No credit card required.</li>
-        <li>No hidden plans or upsells.</li>
-        <li>Use it, break it, tell us what feels confusing.</li>
+        <li>{% trans "No credit card required." %}</li>
+        <li>{% trans "No hidden plans or upsells." %}</li>
+        <li>{% trans "Use it, break it, tell us what feels confusing." %}</li>
       </ul>
+
       <p class="cv-hiw-text">
+        {% blocktrans %}
         If you have feedback, feature ideas or just want to say hi —
-        drop a line to: <br>
+        drop a line to:
+        {% endblocktrans %}
+        <br>
         <a href="mailto:anton.averianov@tum.de" class="cv-link">
           anton.averianov@tum.de
         </a>
@@ -33,12 +44,14 @@
     </div>
 
     <p class="cv-body-text">
+      {% blocktrans %}
       In the future, we might explore premium features — but for now,
       just enjoy using it and focus on your next step.
+      {% endblocktrans %}
     </p>
 
     <a href="{% url 'landing' %}" class="cv-primary-btn cv-primary-btn-big">
-      Start now →
+      {% trans "Start now →" %}
     </a>
   </div>
 </div>
