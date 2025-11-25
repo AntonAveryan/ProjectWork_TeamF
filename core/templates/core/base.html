@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +14,25 @@
     <div class="cv-header">
       <div class="cv-logo">CareerVision</div>
       <div class="cv-nav">
+
+        <!-- LANGUAGE SWITCHER -->
+        <div class="cv-lang-switch">
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            {% get_current_language as LANGUAGE_CODE %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+
+            <select name="language" class="cv-lang-select" onchange="this.form.submit()">
+              <option value="en" {% if LANGUAGE_CODE|slice:":2" == "en" %}selected{% endif %}>⇃ EN</option>
+              <option value="de" {% if LANGUAGE_CODE|slice:":2" == "de" %}selected{% endif %}>⇃ DE</option>
+              <option value="ru" {% if LANGUAGE_CODE|slice:":2" == "ru" %}selected{% endif %}>⇃ RU</option>
+              <option value="lv" {% if LANGUAGE_CODE|slice:":2" == "lv" %}selected{% endif %}>⇃ LV</option>
+              <option value="pl" {% if LANGUAGE_CODE|slice:":2" == "pl" %}selected{% endif %}>⇃ PL</option>
+              <option value="kk" {% if LANGUAGE_CODE|slice:":2" == "kk" %}selected{% endif %}>⇃ KK</option>
+            </select>
+          </form>
+        </div>
+
         <a href="{% url 'landing' %}" class="cv-nav-pill">Home</a>
         <a href="{% url 'how_it_works' %}" class="cv-nav-pill">How it works</a>
         <a href="{% url 'pricing' %}" class="cv-nav-pill">Pricing</a>
