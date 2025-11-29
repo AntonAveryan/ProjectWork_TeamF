@@ -47,34 +47,35 @@
       <div class="cv-auth-modal">
         <button class="cv-auth-close" id="cv-auth-close" aria-label="{% trans 'Close sign in' %}">×</button>
 
-        <h2 class="cv-auth-title">{% trans "Sign in" %}</h2>
-        <p class="cv-auth-subtitle">
+        <h2 class="cv-auth-title" id="cv-auth-title">{% trans "Sign in" %}</h2>
+        <p class="cv-auth-subtitle" id="cv-auth-subtitle">
           {% trans "Come back to your AI-powered career space." %}
         </p>
 
-        <form class="cv-auth-form">
+        <div id="cv-auth-error" class="cv-auth-error" style="display: none;"></div>
+
+        <form class="cv-auth-form" id="cv-auth-form">
           <label class="cv-auth-field">
-            <span>{% trans "Email" %}</span>
-            <input type="email" placeholder="{% trans 'you@example.com' %}" required>
+            <span>{% trans "Username" %}</span>
+            <input type="text" id="cv-auth-username" placeholder="{% trans 'username' %}" required>
           </label>
 
           <label class="cv-auth-field">
             <span>{% trans "Password" %}</span>
-            <input type="password" placeholder="••••••••" required>
+            <input type="password" id="cv-auth-password" placeholder="••••••••" required>
           </label>
 
-          <button type="submit" class="cv-primary-btn cv-auth-submit">
+          <button type="submit" class="cv-primary-btn cv-auth-submit" id="cv-auth-submit-btn">
             {% trans "Sign in" %}
           </button>
         </form>
 
         <div class="cv-auth-links">
-          <button type="button" class="cv-link-like">{% trans "Register" %}</button>
-          <button type="button" class="cv-link-like">{% trans "Forgot password?" %}</button>
+          <button type="button" class="cv-link-like" id="cv-auth-toggle-mode">{% trans "Register" %}</button>
         </div>
 
         <p class="cv-auth-note">
-          {% trans "Demo mode only — no real accounts yet." %}
+          {% trans "JWT-based authentication with secure token storage." %}
         </p>
       </div>
     </div>

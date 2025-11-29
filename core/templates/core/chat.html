@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load i18n %}
+{% load static i18n %}
 
 {% block content %}
 <div class="cv-card cv-card-chat">
@@ -82,10 +82,15 @@
     </div>
   </div>
 
-  <div class="cv-chat-input-row">
-    <button class="cv-upload-btn" type="button">+</button>
-    <input class="cv-chat-input" type="text" placeholder="{% trans 'Upload your CV or ask any questions' %}">
-    <button class="cv-send-btn" type="button">→</button>
+  <div class="cv-chat-input-row" id="cv-chat-input-row">
+    <input type="file" id="cv-file-input" accept=".pdf,application/pdf" style="position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden;">
+    <button class="cv-upload-btn" type="button" id="cv-upload-btn" title="{% trans 'Upload PDF CV' %}">+</button>
+    <input class="cv-chat-input" type="text" id="cv-chat-input" placeholder="{% trans 'Upload your CV or ask any questions' %}">
+    <button class="cv-send-btn" type="button" id="cv-send-btn">→</button>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'core/chat.js' %}"></script>
 {% endblock %}
