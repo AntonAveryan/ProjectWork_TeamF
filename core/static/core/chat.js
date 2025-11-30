@@ -102,15 +102,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // Show loading state
     uploadBtn.disabled = true;
     uploadBtn.textContent = '⏳';
+    chatInput.disabled = true;
+    sendBtn.disabled = true;
     
     try {
       await uploadAndExtractPDF(file);
     } catch (error) {
       console.error('PDF upload error:', error);
-      showError('Failed to extract text from PDF. Please try again.');
+      showError(error.message || 'Failed to analyze PDF. Please try again.');
     } finally {
       uploadBtn.disabled = false;
       uploadBtn.textContent = '+';
+      chatInput.disabled = false;
+      sendBtn.disabled = false;
       fileInput.value = ''; // Reset file input
     }
   }
@@ -127,54 +131,166 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Upload PDF and extract text
+  // Upload PDF and analyze career fields
   async function uploadAndExtractPDF(file) {
     const formData = new FormData();
     formData.append('file', file);
 
+    // Get access token if user is authenticated
+    const accessToken = localStorage.getItem('access_token');
+    
+    // Prepare headers
+    const headers = {};
+    if (accessToken) {
+      headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
     // Show user message that file is being uploaded
     addUserMessage(`Uploading ${file.name}...`);
+    
+    // Show loading message (analysis can take 30-60 seconds)
+    const loadingMessageId = addAIMessageWithId('⏳ Analyzing your CV and identifying potential career fields... This may take 30-60 seconds.');
 
     try {
       const response = await fetch(`${CHAT_API_BASE_URL}/extract-text`, {
         method: 'POST',
+        headers: headers,
         body: formData,
         // Don't set Content-Type header - browser sets it automatically with boundary
       });
 
       const data = await response.json();
 
+      // Remove loading message
+      removeMessage(loadingMessageId);
+
+      // Check for error in response (even if status is 200)
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
       if (!response.ok) {
-        throw new Error(data.detail || 'Failed to extract text from PDF');
+        throw new Error(data.detail || 'Failed to analyze PDF');
       }
 
       // Log to console
-      console.log('=== PDF Text Extraction Result ===');
+      console.log('=== Career Analysis Result ===');
       console.log('Filename:', data.filename);
       console.log('Pages:', data.pages);
       console.log('Characters:', data.characters);
-      console.log('Extracted Text:', data.text);
+      console.log('Career Fields Found:', data.career_fields?.length || 0);
+      console.log('Saved to DB:', data.saved_to_db || false);
+      console.log('Career Fields:', data.career_fields);
+      console.log('Overall Summary:', data.overall_summary);
       console.log('===================================');
 
       // Update user message
       updateLastUserMessage(`Uploaded ${file.name} (${data.pages} pages)`);
 
-      // Show extracted text in chat
-      if (data.text && data.text.trim()) {
-        addAIMessage(
-          `Successfully extracted text from your CV (${data.pages} pages, ${data.characters} characters).\n\n` +
-          `**Extracted Text Preview:**\n${data.text.substring(0, 500)}${data.text.length > 500 ? '...' : ''}`
-        );
-      } else {
-        addAIMessage(
-          `PDF uploaded successfully (${data.pages} pages), but no extractable text was found. ` +
-          `This might be a scanned/image-based PDF.`
-        );
-      }
+      // Display career analysis results
+      displayCareerAnalysis(data);
 
     } catch (error) {
-      console.error('PDF extraction error:', error);
+      console.error('PDF analysis error:', error);
       throw error;
+    }
+  }
+
+  // Display career analysis results in chat
+  function displayCareerAnalysis(data) {
+    let message = '';
+
+    // Check if we have career fields
+    if (data.career_fields && data.career_fields.length > 0) {
+      message += `**Career Analysis Complete!**\n\n`;
+      message += `I've analyzed your CV and identified ${data.career_fields.length} potential career field${data.career_fields.length > 1 ? 's' : ''}:\n\n`;
+
+      // Display each career field
+      data.career_fields.forEach((field, index) => {
+        message += `**${index + 1}. ${field.field}**\n`;
+        if (field.summary) {
+          message += `${field.summary}\n`;
+        }
+        if (field.key_skills_mentioned && field.key_skills_mentioned.length > 0) {
+          message += `Key Skills: ${field.key_skills_mentioned.join(', ')}\n`;
+        }
+        message += '\n';
+      });
+
+      // Overall summary
+      if (data.overall_summary) {
+        message += `**Overall Assessment:**\n${data.overall_summary}\n\n`;
+      }
+
+      // Database save status
+      if (data.saved_to_db) {
+        message += `✅ Your career fields and skills have been saved to your profile.`;
+      } else {
+        message += `ℹ️ Sign in to save your career analysis to your profile.`;
+      }
+    } else {
+      // No career fields found
+      message += `**Analysis Complete**\n\n`;
+      message += `I've processed your CV (${data.pages} pages, ${data.characters} characters), `;
+      message += `but couldn't identify specific career fields. `;
+      message += `This might be because:\n`;
+      message += `- The PDF is image-based (scanned document)\n`;
+      message += `- The text content is limited\n`;
+      message += `- The LLM service encountered an issue\n\n`;
+      message += `Please try uploading a text-based PDF with more detailed information.`;
+    }
+
+    addAIMessage(message);
+  }
+
+  // Add message and return ID for removal
+  function addAIMessageWithId(text) {
+    const row = document.createElement('div');
+    row.className = 'cv-chat-row cv-chat-row-ai';
+    const messageId = 'msg-' + Date.now() + '-' + Math.random();
+    row.id = messageId;
+    
+    const bubble = document.createElement('div');
+    bubble.className = 'cv-chat-bubble cv-chat-bubble-ai';
+    
+    // Handle multi-line text with line breaks
+    const lines = text.split('\n');
+    lines.forEach((line, index) => {
+      if (line.trim().startsWith('**') && line.trim().endsWith('**')) {
+        // Bold heading
+        const heading = document.createElement('p');
+        heading.className = 'cv-chat-heading';
+        heading.textContent = line.replace(/\*\*/g, '');
+        bubble.appendChild(heading);
+      } else {
+        const p = document.createElement('p');
+        p.textContent = line || '\u00A0'; // Non-breaking space for empty lines
+        if (index === 0 && lines.length > 1) {
+          p.style.marginTop = '0';
+        }
+        bubble.appendChild(p);
+      }
+    });
+    
+    const avatar = document.createElement('div');
+    avatar.className = 'cv-avatar cv-avatar-ai';
+    avatar.textContent = 'AI';
+    
+    row.appendChild(bubble);
+    row.appendChild(avatar);
+    chatWindow.appendChild(row);
+    
+    // Scroll to bottom
+    scrollToBottom();
+    
+    return messageId;
+  }
+
+  // Remove message by ID
+  function removeMessage(messageId) {
+    const message = document.getElementById(messageId);
+    if (message) {
+      message.remove();
     }
   }
 
@@ -231,41 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Add AI message to chat
   function addAIMessage(text) {
-    const row = document.createElement('div');
-    row.className = 'cv-chat-row cv-chat-row-ai';
-    
-    const bubble = document.createElement('div');
-    bubble.className = 'cv-chat-bubble cv-chat-bubble-ai';
-    
-    // Handle multi-line text with line breaks
-    const lines = text.split('\n');
-    lines.forEach((line, index) => {
-      if (line.trim().startsWith('**') && line.trim().endsWith('**')) {
-        // Bold heading
-        const heading = document.createElement('p');
-        heading.className = 'cv-chat-heading';
-        heading.textContent = line.replace(/\*\*/g, '');
-        bubble.appendChild(heading);
-      } else {
-        const p = document.createElement('p');
-        p.textContent = line || '\u00A0'; // Non-breaking space for empty lines
-        if (index === 0 && lines.length > 1) {
-          p.style.marginTop = '0';
-        }
-        bubble.appendChild(p);
-      }
-    });
-    
-    const avatar = document.createElement('div');
-    avatar.className = 'cv-avatar cv-avatar-ai';
-    avatar.textContent = 'AI';
-    
-    row.appendChild(bubble);
-    row.appendChild(avatar);
-    chatWindow.appendChild(row);
-    
-    // Scroll to bottom
-    scrollToBottom();
+    return addAIMessageWithId(text);
   }
 
   // Show error message

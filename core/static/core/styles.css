@@ -289,6 +289,20 @@ body.cv-body::before {
   font-weight: 600;
 }
 
+.cv-chat-skill-list {
+  display: inline;
+  color: #7b6660;
+}
+
+.cv-chat-skill-tag {
+  display: inline-block;
+  background: #ffe4d4;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin: 2px 4px 2px 0;
+}
+
 .cv-chat-inline-btn {
   margin-top: 12px;
 }
