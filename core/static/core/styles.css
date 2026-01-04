@@ -52,20 +52,8 @@ body.cv-body::before {
 }
 
 /* ====== HEADER ====== */
-/*
 .cv-header {
-  width: 100%;
   padding: 16px 28px;
-  background: linear-gradient(90deg, #ffd9c2, #ffc2c7);
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
-} */
-.cv-header {
-  width: 100%;
-
   background: linear-gradient(90deg, #ffd9c2, #ffc2c7);
   border-radius: 12px;
   display: flex;
