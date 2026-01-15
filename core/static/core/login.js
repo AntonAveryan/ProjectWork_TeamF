@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const submitBtn = document.getElementById('cv-auth-submit-btn');
   const errorEl = document.getElementById('cv-auth-error');
 
+  // Stop code early if requirements not met
   if (!openBtn || !overlay || !form) {
     return;
   }

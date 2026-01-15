@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // --- DOM элементы ---
+  // --- DOM elements ---
   const jobList = document.getElementById('jobList');
   const jobCards = Array.from(document.querySelectorAll('.cv-job-card'));
 
@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const favButtons = Array.from(document.querySelectorAll('.cv-fav-btn'));
 
-  // --- избранное через localStorage ---
+  // --- Favorites via localStorage ---
   const FAV_KEY = 'cv_favorites';
   let favorites = loadFavorites();
-  let favoritesMode = false; // показывать только избранные или все
+  let favoritesMode = false; // show only favorites or all
 
   function loadFavorites() {
     try {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // клик по звёздочке
+  // Click on the star
   favButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.jobId;
@@ -61,13 +61,13 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       saveFavorites();
       updateFavButtons();
-      applyFavoritesFilter(); // если открыт режим Favorites – обновляем список
+      applyFavoritesFilter(); // If the Favorites mode is open, update the list
     });
   });
 
   updateFavButtons();
 
-  // --- фильтр "только избранные" ---
+  // --- "Favorites only" filter ---
   function applyFavoritesFilter() {
     if (!favoritesMode) {
       jobCards.forEach(card => {
@@ -93,19 +93,19 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.reload();
   });
 
-  // --- модалка сортировки/фильтров ---
+  // --- sorting/filter modal ---
   sortBtn.addEventListener('click', () => {
     sortModal.classList.add('show');
   });
 
-  // закрытие по клику в серый фон вокруг модалки
+  // Click-to-close modal with a gray background
   sortModal.addEventListener('click', (e) => {
     if (e.target === sortModal) {
       sortModal.classList.remove('show');
     }
   });
 
-  // --- применение сортировки и фильтров ---
+  // --- applying sorting and filters ---
   function applySortAndFilters() {
     let filtered = jobCards.slice();
 
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const company = companySelect.value; // SAP / ''
     const mode = modeSelect.value;       // On-site / Hybrid / Remote / ''
 
-    // фильтрация по полям
+    // Filtering by fields
     filtered = filtered.filter(card => {
       const cardLevel = card.dataset.level;
       const cardCompany = card.dataset.company;
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return true;
     });
 
-    // сортировка по дате
+    // Sort by date
     const order = sortDateSelect.value; // newest / oldest
     filtered.sort((a, b) => {
       const da = new Date(a.dataset.date);
@@ -134,11 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
       return order === 'newest' ? (db - da) : (da - db);
     });
 
-    // перерисовать порядок карточек
+    // Redraw the order of the cards
     jobCards.forEach(card => jobList.removeChild(card));
     filtered.forEach(card => jobList.appendChild(card));
 
-    // если включены избранные — сразу применяем и этот фильтр
+    // If favorites are enabled, apply this filter
     applyFavoritesFilter();
   }
 
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     companySelect.value = '';
     modeSelect.value = '';
 
-    // сбрасываем порядок и видимость
+    // Resetting order and visibility
     jobCards.forEach(card => {
       card.style.display = '';
       jobList.appendChild(card);
