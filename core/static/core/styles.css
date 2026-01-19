@@ -366,6 +366,87 @@ body.cv-body::before {
   padding-bottom: 26px;
 }
 
+/* ====== CITY SEARCH ====== */
+
+.cv-city-search {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f7efe8;
+  border-radius: 16px;
+}
+
+.cv-city-search-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cv-city-search-label span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2f1b1a;
+}
+
+.cv-city-search-input-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.cv-city-input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 2px solid #ffe4d4;
+  border-radius: 12px;
+  background: #ffffff;
+  font-size: 14px;
+  color: #2f1b1a;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.cv-city-input:focus {
+  border-color: #ff9e7a;
+}
+
+.cv-search-btn {
+  white-space: nowrap;
+  padding: 10px 24px;
+}
+
+/* ====== LOADING / ERROR / EMPTY STATES ====== */
+
+.cv-loading-state,
+.cv-error-state,
+.cv-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fff7f3;
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.cv-loading-state p {
+  color: #7b6660;
+  font-size: 16px;
+}
+
+.cv-error-state {
+  background: #ffe4d4;
+  border: 2px solid #ff7b93;
+}
+
+.cv-error-state p {
+  color: #c94a4a;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.cv-empty-state {
+  color: #7b6660;
+  font-size: 15px;
+}
+
 .cv-positions-toolbar {
   display: flex;
   justify-content: space-between;

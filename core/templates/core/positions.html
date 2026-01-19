@@ -16,6 +16,17 @@
     <p class="cv-subtitle">{% trans "Find positions easier" %}</p>
   </div>
 
+  <!-- City Search Input -->
+  <div class="cv-city-search">
+    <label class="cv-city-search-label">
+      <span>{% trans "Search jobs in city" %}</span>
+      <div class="cv-city-search-input-group">
+        <input type="text" id="cityInput" class="cv-city-input" placeholder="{% trans 'e.g., London, New York, San Francisco' %}" value="London">
+        <button id="searchJobsBtn" class="cv-primary-btn cv-search-btn">{% trans "Search" %}</button>
+      </div>
+    </label>
+  </div>
+
   <div class="cv-positions-toolbar">
     <div class="cv-positions-title">{% trans "LinkedIn Job Listing" %}</div>
     <div class="cv-positions-buttons">
@@ -25,41 +36,23 @@
     </div>
   </div>
 
+  <!-- Loading State -->
+  <div id="loadingState" class="cv-loading-state" style="display: none;">
+    <p>{% trans "Loading jobs..." %}</p>
+  </div>
+
+  <!-- Error State -->
+  <div id="errorState" class="cv-error-state" style="display: none;">
+    <p id="errorMessage"></p>
+  </div>
+
+  <!-- Job List -->
   <div id="jobList" class="cv-job-list">
-    {% for job in jobs %}
-      <div class="cv-job-card"
-           data-job-id="{{ job.id }}"
-           data-company="{{ job.company }}"
-           data-level="{{ job.level }}"
-           data-mode="{{ job.mode }}"
-           data-date="{{ job.date_posted }}">
-        <div class="cv-job-main">
-          <div class="cv-job-logo">
-            {{ job.company|slice:":3" }}
-          </div>
-          <div class="cv-job-info">
-            <div class="cv-job-title">
-              {{ job.title }}, {{ job.company }}, {{ job.location }}
-            </div>
-            <div class="cv-job-desc">
-              {{ job.description }} <span class="cv-job-more">{% trans "more…" %}</span>
-            </div>
-          </div>
-        </div>
-        <div class="cv-job-actions">
-          <button class="cv-fav-btn" type="button" data-job-id="{{ job.id }}">☆</button>
-          <a href="{{ job.url }}" target="_blank" class="cv-primary-btn cv-apply-btn">
-            {% trans "Apply →" %}
-          </a>
-        </div>
-      </div>
-    {% empty %}
-      <p>
-        {% blocktrans %}
-        No jobs found yet. Try to refresh or update your CV.
-        {% endblocktrans %}
-      </p>
-    {% endfor %}
+    <p id="emptyState" class="cv-empty-state">
+      {% blocktrans %}
+      Enter a city and click "Search" to find jobs matching your career profile.
+      {% endblocktrans %}
+    </p>
   </div>
 </div>
 
