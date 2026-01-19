@@ -70,14 +70,6 @@ msgstr "Aizvērt pieteikšanos"
 msgid "Come back to your AI-powered career space."
 msgstr "Atgriezieties savā ar AI darbinātajā karjeras telpā."
 
-#: .\core\templates\core\base.html:57
-msgid "Email"
-msgstr "E-pasts"
-
-#: .\core\templates\core\base.html:58
-msgid "you@example.com"
-msgstr "jūs@example.com"
-
 #: .\core\templates\core\base.html:62
 msgid "Password"
 msgstr "Parole"
@@ -85,14 +77,6 @@ msgstr "Parole"
 #: .\core\templates\core\base.html:72
 msgid "Register"
 msgstr "Reģistrēties"
-
-#: .\core\templates\core\base.html:73
-msgid "Forgot password?"
-msgstr "Aizmirsi paroli?"
-
-#: .\core\templates\core\base.html:77
-msgid "Demo mode only — no real accounts yet."
-msgstr "Tikai demo režīms — pagaidām nav īstu kontu."
 
 #: .\core\templates\core\chat.html:10
 msgid "Back to start"
@@ -190,6 +174,23 @@ msgstr ""
 "          Tās ir galvenās kompetences, kas nepieciešamas, lai izceltos un iegūtu spēcīgu pozīciju. Ja ir\n"
 "          papildu jautājumi, varu detalizēti izskaidrot katru soli.\n"
 "          "
+
+
+#: .\core\templates\core\base.html:59
+msgid "Username"
+msgstr "Lietotājvārds"
+
+#: .\core\templates\core\base.html:60
+msgid "username"
+msgstr "lietotājvārds"
+
+#: .\core\templates\core\base.html:78
+msgid "JWT-based authentication with secure token storage."
+msgstr "JWT balstīta autentifikācija ar drošu tokenu glabāšanu."
+
+#: .\core\templates\core\chat.html:87
+msgid "Upload PDF CV"
+msgstr "Augšupielādēt PDF CV"
 
 #: .\core\templates\core\chat.html:87
 msgid "Upload your CV or ask any questions"

@@ -72,14 +72,6 @@ msgstr "Закрыть окно входа"
 msgid "Come back to your AI-powered career space."
 msgstr "Вернитесь в своё карьерное пространство на базе ИИ."
 
-#: .\core\templates\core\base.html:57
-msgid "Email"
-msgstr "Эл. почта"
-
-#: .\core\templates\core\base.html:58
-msgid "you@example.com"
-msgstr "you@example.com"
-
 #: .\core\templates\core\base.html:62
 msgid "Password"
 msgstr "Пароль"
@@ -87,14 +79,6 @@ msgstr "Пароль"
 #: .\core\templates\core\base.html:72
 msgid "Register"
 msgstr "Зарегистрироваться"
-
-#: .\core\templates\core\base.html:73
-msgid "Forgot password?"
-msgstr "Забыли пароль?"
-
-#: .\core\templates\core\base.html:77
-msgid "Demo mode only — no real accounts yet."
-msgstr "Только демо-режим — настоящих аккаунтов пока нет."
 
 #: .\core\templates\core\chat.html:10
 msgid "Back to start"
@@ -202,6 +186,23 @@ msgstr ""
 "          Если у вас будут дополнительные вопросы, я могу подробно разобрать "
 "каждый шаг.\n"
 "          "
+
+
+#: .\core\templates\core\base.html:59
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: .\core\templates\core\base.html:60
+msgid "username"
+msgstr "имя пользователя"
+
+#: .\core\templates\core\base.html:78
+msgid "JWT-based authentication with secure token storage."
+msgstr "Аутентификация на основе JWT с безопасным хранением токенов."
+
+#: .\core\templates\core\chat.html:87
+msgid "Upload PDF CV"
+msgstr "Загрузить PDF резюме"
 
 #: .\core\templates\core\chat.html:87
 msgid "Upload your CV or ask any questions"

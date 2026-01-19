@@ -64,14 +64,6 @@ msgstr "Терезені жабу"
 msgid "Come back to your AI-powered career space."
 msgstr "Карьераңызға арналған AI кеңістігіне қайта оралыңыз."
 
-#: .\core\templates\core\base.html:57
-msgid "Email"
-msgstr "Электрондық пошта"
-
-#: .\core\templates\core\base.html:58
-msgid "you@example.com"
-msgstr "сіз@example.com"
-
 #: .\core\templates\core\base.html:62
 msgid "Password"
 msgstr "Құпия сөз"
@@ -79,14 +71,6 @@ msgstr "Құпия сөз"
 #: .\core\templates\core\base.html:72
 msgid "Register"
 msgstr "Тіркелу"
-
-#: .\core\templates\core\base.html:73
-msgid "Forgot password?"
-msgstr "Құпия сөзді ұмыттыңыз ба?"
-
-#: .\core\templates\core\base.html:77
-msgid "Demo mode only — no real accounts yet."
-msgstr "Тек демонстрациялық режим — әлі нақты аккаунттар жоқ."
 
 #: .\core\templates\core\chat.html:10
 msgid "Back to start"
@@ -182,6 +166,23 @@ msgstr ""
 "\n          Бұл — табысқа жетіп, жақсы позиция табу үшін қажет негізгі дағдылар.\n"
 "          Қосымша сұрақтарыңыз болса, қадамдарды толығырақ түсіндіріп беремін.\n"
 "          "
+
+
+#: .\core\templates\core\base.html:59
+msgid "Username"
+msgstr "Пайдаланушы аты"
+
+#: .\core\templates\core\base.html:60
+msgid "username"
+msgstr "пайдаланушы аты"
+
+#: .\core\templates\core\base.html:78
+msgid "JWT-based authentication with secure token storage."
+msgstr "JWT негізіндегі аутентификация қауіпсіз токен сақтаумен."
+
+#: .\core\templates\core\chat.html:87
+msgid "Upload PDF CV"
+msgstr "PDF резюме жүктеу"
 
 #: .\core\templates\core\chat.html:87
 msgid "Upload your CV or ask any questions"

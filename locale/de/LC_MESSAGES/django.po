@@ -67,29 +67,25 @@ msgstr "Anmeldung schließen"
 msgid "Come back to your AI-powered career space."
 msgstr "Kehre in deinen KI-gestützten Karrierebereich zurück."
 
-#: .\core\templates\core\base.html:57
-msgid "Email"
-msgstr "E-Mail"
+#: .\core\templates\core\base.html:59
+msgid "Username"
+msgstr "Benutzername"
 
-#: .\core\templates\core\base.html:58
-msgid "you@example.com"
-msgstr "du@example.com"
+#: .\core\templates\core\base.html:60
+msgid "username"
+msgstr "benutzername"
 
-#: .\core\templates\core\base.html:62
+#: .\core\templates\core\base.html:64
 msgid "Password"
 msgstr "Passwort"
 
-#: .\core\templates\core\base.html:72
+#: .\core\templates\core\base.html:74
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\core\templates\core\base.html:73
-msgid "Forgot password?"
-msgstr "Passwort vergessen?"
-
-#: .\core\templates\core\base.html:77
-msgid "Demo mode only — no real accounts yet."
-msgstr "Nur Demo-Modus — noch keine echten Konten."
+#: .\core\templates\core\base.html:78
+msgid "JWT-based authentication with secure token storage."
+msgstr "JWT-basierte Authentifizierung mit sicherer Token-Speicherung."
 
 #: .\core\templates\core\chat.html:10
 msgid "Back to start"
@@ -186,7 +182,28 @@ msgstr ""
 "          Wenn du weitere Fragen hast, kann ich die Schritte gerne im Detail erklären.\n"
 "          "
 
+
+#: .\core\templates\core\base.html:59
+msgid "Username"
+msgstr "Benutzername"
+
+#: .\core\templates\core\base.html:60
+msgid "username"
+msgstr "benutzername"
+
+#: .\core\templates\core\base.html:78
+msgid "JWT-based authentication with secure token storage."
+msgstr "JWT-basierte Authentifizierung mit sicherer Token-Speicherung."
+
 #: .\core\templates\core\chat.html:87
+msgid "Upload PDF CV"
+msgstr "PDF-Lebenslauf hochladen"
+
+#: .\core\templates\core\chat.html:87
+msgid "Upload PDF CV"
+msgstr "PDF-Lebenslauf hochladen"
+
+#: .\core\templates\core\chat.html:88
 msgid "Upload your CV or ask any questions"
 msgstr "Lade deinen Lebenslauf hoch oder stelle Fragen"
 
