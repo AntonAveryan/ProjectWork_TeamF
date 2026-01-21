@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentCity = 'London'; // Default city
 
   const FAV_KEY = 'cv_favorites';
+  const FAV_JOBS_KEY = 'cv_favorite_jobs';
 
   // --- Favorites Management ---
   function loadFavorites() {
@@ -48,6 +49,23 @@ document.addEventListener('DOMContentLoaded', function () {
   function saveFavorites() {
     localStorage.setItem(FAV_KEY, JSON.stringify(favorites));
   }
+
+  function loadFavoriteJobsMap() {
+    try {
+      const raw = localStorage.getItem(FAV_JOBS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      console.warn('Failed to load favorite jobs map', e);
+      return {};
+    }
+  }
+
+  function saveFavoriteJobsMap(map) {
+    localStorage.setItem(FAV_JOBS_KEY, JSON.stringify(map));
+  }
+
+  // in‑memory cache of full favorite job objects (for Favorites page)
+  let favoriteJobsMap = loadFavoriteJobsMap();
 
   function updateFavButtons() {
     const favButtons = document.querySelectorAll('.cv-fav-btn');
@@ -252,16 +270,52 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add favorite button event listener
     const favBtn = card.querySelector('.cv-fav-btn');
     if (favBtn) {
-      favBtn.addEventListener('click', () => {
+      favBtn.addEventListener('click', async () => {
         const urn = favBtn.dataset.jobUrn;
-        if (favorites.includes(urn)) {
+        const isAlreadyFav = favorites.includes(urn);
+
+        if (isAlreadyFav) {
+          // local unfavorite only (no DELETE endpoint specified yet)
           favorites = favorites.filter(f => f !== urn);
-        } else {
-          favorites.push(urn);
+          delete favoriteJobsMap[urn];
+          saveFavorites();
+          saveFavoriteJobsMap(favoriteJobsMap);
+          updateFavButtons();
+          applyFavoritesFilter();
+          return;
         }
+
+        // Add to local favorites immediately for snappy UI
+        favorites.push(urn);
+        favoriteJobsMap[urn] = {
+          title: jobTitle,
+          urn: jobUrn,
+          company: jobCompany,
+          location: jobLocation,
+          apply_link: jobApplyLink,
+          description: jobDescription,
+          source: 'linkedin',
+        };
         saveFavorites();
+        saveFavoriteJobsMap(favoriteJobsMap);
         updateFavButtons();
         applyFavoritesFilter();
+
+        // Also persist to backend /favorites endpoint
+        try {
+          const jobPayload = {
+            title: jobTitle || 'Unknown title',
+            urn: jobUrn,
+            company: jobCompany || undefined,
+            location: jobLocation || undefined,
+            apply_link: jobApplyLink || undefined,
+            source: 'linkedin',
+          };
+          console.log('Saving favorite to backend:', jobPayload);
+          await saveFavoriteToBackend(jobPayload);
+        } catch (e) {
+          console.error('Failed to save favorite to backend', e);
+        }
       });
     }
 
@@ -278,6 +332,48 @@ document.addEventListener('DOMContentLoaded', function () {
       option.textContent = company;
       companySelect.appendChild(option);
     });
+  }
+
+  // --- Backend Favorites API ---
+  async function saveFavoriteToBackend(jobPayload) {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      console.warn('Cannot save favorite to backend: user not logged in');
+      return;
+    }
+
+    console.log('Calling POST /favorites with payload:', jobPayload);
+
+    try {
+      const response = await fetch(`${JOBS_API_BASE_URL}/favorites`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(jobPayload),
+      });
+
+      if (!response.ok) {
+        let errDetail = '';
+        try {
+          const data = await response.json();
+          errDetail = data.detail || JSON.stringify(data);
+        } catch (_) {
+          errDetail = `HTTP ${response.status}`;
+        }
+        console.error('Backend /favorites error:', response.status, errDetail);
+        throw new Error(`Failed to save favorite: ${errDetail}`);
+      }
+
+      // Response contains DB favorite object
+      const favorite = await response.json();
+      console.log('✅ Favorite successfully saved to backend:', favorite);
+      return favorite;
+    } catch (error) {
+      console.error('Error calling /favorites endpoint:', error);
+      throw error;
+    }
   }
 
   // --- Utility Functions ---

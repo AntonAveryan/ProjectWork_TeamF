@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="cv-card cv-card-positions">
+
+  <div class="cv-card-top-row">
+    <a href="{% url 'positions' %}" class="cv-back-link">
+      ← {% trans "Back to positions" %}
+    </a>
+  </div>
+
+  <div class="cv-card-title-wrap">
+    <h1 class="cv-title">{% trans "Your favorite jobs" %}</h1>
+    <p class="cv-subtitle">
+      {% trans "Jobs you saved while browsing recommendations." %}
+    </p>
+  </div>
+
+  <!-- Loading / Empty / Error states are reused styles -->
+  <div id="favoritesLoading" class="cv-loading-state" style="display: none;">
+    <p>{% trans "Loading favorites..." %}</p>
+  </div>
+
+  <div id="favoritesError" class="cv-error-state" style="display: none;">
+    <p id="favoritesErrorMessage"></p>
+  </div>
+
+  <div id="favoritesEmpty" class="cv-empty-state" style="display: none;">
+    {% blocktrans %}
+    You don't have any favorite jobs yet. Go to the positions page and click on the star to save jobs.
+    {% endblocktrans %}
+  </div>
+
+  <div id="favoritesList" class="cv-job-list">
+    <!-- Favorite job cards will be rendered here by JavaScript -->
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'core/favorites.js' %}"></script>
+{% endblock %}
+

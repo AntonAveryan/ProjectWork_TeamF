@@ -18,65 +18,15 @@
     </p>
   </div>
 
-  <div class="cv-chat-window">
-    <!-- пример диалога -->
-    <div class="cv-chat-row cv-chat-row-user">
-      <div class="cv-avatar cv-avatar-user">AA</div>
-      <div class="cv-chat-bubble cv-chat-bubble-user">
-        {% trans "Analyze my CV that I uploaded earlier, please." %}
-      </div>
+  <div class="cv-chat-window" id="cv-chat-window">
+    <!-- Streaming text when chat is empty -->
+    <div class="cv-chat-empty-message" id="cv-chat-empty-message">
+      <span id="cv-streaming-text"></span>
     </div>
-
+    <!-- Initial AI greeting -->
     <div class="cv-chat-row cv-chat-row-ai">
       <div class="cv-chat-bubble cv-chat-bubble-ai">
-        <p class="cv-chat-heading">
-          {% blocktrans %}
-          We have analysed your CV file and have options for you…
-          {% endblocktrans %}
-        </p>
-        <p>
-          {% blocktrans %}
-          Your studies and experience show that you might be a perfect fit for IT-support positions.
-          We have already found a couple nice positions that suit you perfectly, but if you would like to
-          clarify more your experience or understand where you have skill issues, you're welcome to ask
-          further questions.
-          {% endblocktrans %}
-        </p>
-        <a href="{% url 'positions' %}" class="cv-primary-btn cv-chat-inline-btn">
-          {% trans "To positions →" %}
-        </a>
-      </div>
-      <div class="cv-avatar cv-avatar-ai">AI</div>
-    </div>
-
-    <div class="cv-chat-row cv-chat-row-user">
-      <div class="cv-avatar cv-avatar-user">AA</div>
-      <div class="cv-chat-bubble cv-chat-bubble-user">
-        {% trans "I want to try PM soon, what do I need to do?" %}
-      </div>
-    </div>
-
-    <div class="cv-chat-row cv-chat-row-ai">
-      <div class="cv-chat-bubble cv-chat-bubble-ai">
-        <p class="cv-chat-heading">
-          {% trans "Here are the steps you need to take to be a great PM:" %}
-        </p>
-        <ol class="cv-steps-list">
-          <li>{% trans "Know the user." %}</li>
-          <li>{% trans "Define clear problems." %}</li>
-          <li>{% trans "Prioritize ruthlessly." %}</li>
-          <li>{% trans "Communicate simply." %}</li>
-          <li>{% trans "Ship fast, learn faster." %}</li>
-          <li>{% trans "Align teams, remove blockers." %}</li>
-          <li>{% trans "Measure outcomes, not output." %}</li>
-          <li>{% trans "Iterate forever." %}</li>
-        </ol>
-        <p>
-          {% blocktrans %}
-          These are the core competencies you need to excel and find a strong position. If you have any
-          further questions I can clarify the steps in detail.
-          {% endblocktrans %}
-        </p>
+        {% trans "Hi, how can I help you?" %}
       </div>
       <div class="cv-avatar cv-avatar-ai">AI</div>
     </div>
@@ -86,11 +36,12 @@
     <input type="file" id="cv-file-input" accept=".pdf,application/pdf" style="position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden;">
     <button class="cv-upload-btn" type="button" id="cv-upload-btn" title="{% trans 'Upload PDF CV' %}">+</button>
     <input class="cv-chat-input" type="text" id="cv-chat-input" placeholder="{% trans 'Upload your CV or ask any questions' %}">
+    <a href="{% url 'positions' %}" class="cv-primary-btn cv-positions-btn" id="cv-positions-btn">{% trans "To positions →" %}</a>
     <button class="cv-send-btn" type="button" id="cv-send-btn">→</button>
   </div>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-<script src="{% static 'core/chat.js' %}"></script>
+<script src="{% static 'core/chat.js' %}?v=2"></script>
 {% endblock %}

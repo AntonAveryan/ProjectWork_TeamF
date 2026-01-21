@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const sendBtn = document.getElementById('cv-send-btn');
   const chatWindow = document.querySelector('.cv-chat-window');
   const inputRow = document.getElementById('cv-chat-input-row') || document.querySelector('.cv-chat-input-row');
+  const emptyMessage = document.getElementById('cv-chat-empty-message');
+  const streamingText = document.getElementById('cv-streaming-text');
 
   if (!fileInput || !uploadBtn || !chatInput || !sendBtn || !chatWindow || !inputRow) {
     console.error('Chat elements not found:', {
@@ -21,6 +23,51 @@ document.addEventListener('DOMContentLoaded', function () {
       inputRow: !!inputRow
     });
     return;
+  }
+
+  // Streaming text animation
+  let streamingInterval = null;
+  const fullText = 'We are ready to start...';
+  let currentIndex = 0;
+
+  function startStreaming() {
+    if (!streamingText || streamingInterval) return;
+    currentIndex = 0;
+    streamingText.textContent = '';
+
+    streamingInterval = setInterval(() => {
+      if (currentIndex < fullText.length) {
+        streamingText.textContent += fullText[currentIndex];
+        currentIndex++;
+      } else {
+        // Restart from beginning
+        currentIndex = 0;
+        streamingText.textContent = '';
+      }
+    }, 100);
+  }
+
+  function stopStreaming() {
+    if (streamingInterval) {
+      clearInterval(streamingInterval);
+      streamingInterval = null;
+    }
+    if (emptyMessage) {
+      emptyMessage.style.display = 'none';
+    }
+  }
+
+  function checkChatEmpty() {
+    if (!chatWindow) return;
+    const chatRows = chatWindow.querySelectorAll('.cv-chat-row');
+    if (chatRows.length === 0) {
+      if (emptyMessage) {
+        emptyMessage.style.display = 'block';
+        startStreaming();
+      }
+    } else {
+      stopStreaming();
+    }
   }
 
   // File upload button click - use mousedown to ensure it works
@@ -120,13 +167,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Send button click
-  sendBtn.addEventListener('click', () => {
+  sendBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('Send button clicked');
     sendMessage();
   });
 
   // Enter key to send
   chatInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
+      console.log('Enter key pressed');
       sendMessage();
     }
   });
@@ -279,10 +330,13 @@ document.addEventListener('DOMContentLoaded', function () {
     row.appendChild(bubble);
     row.appendChild(avatar);
     chatWindow.appendChild(row);
-    
+
+    // Hide empty message when message is added
+    checkChatEmpty();
+
     // Scroll to bottom
     scrollToBottom();
-    
+
     return messageId;
   }
 
@@ -295,21 +349,129 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Send text message
-  function sendMessage() {
+  async function sendMessage() {
+    console.log('sendMessage() called');
     const message = chatInput.value.trim();
-    if (!message) return;
+    console.log('Message value:', message);
+    
+    if (!message) {
+      console.log('Message is empty, returning');
+      return;
+    }
 
+    console.log('Adding user message to chat');
     // Add user message to chat
     addUserMessage(message);
     
-    // Clear input
+    // Clear input immediately for better UX
     chatInput.value = '';
+    
+    // Disable input and send button while processing
+    chatInput.disabled = true;
+    sendBtn.disabled = true;
 
     // Log to console
     console.log('User message:', message);
+    console.log('CHAT_API_BASE_URL:', CHAT_API_BASE_URL);
 
-    // For now, just echo back (you can integrate with AI later)
-    // addAIMessage('I received your message: ' + message);
+    // Show loading indicator
+    const loadingMessageId = addAIMessageWithId('⏳ Thinking...');
+    console.log('Loading message ID:', loadingMessageId);
+
+    try {
+      // Get access token
+      const accessToken = localStorage.getItem('access_token');
+      console.log('Access token exists:', !!accessToken);
+      
+      if (!accessToken) {
+        // User not logged in
+        console.log('No access token, showing sign-in message');
+        removeMessage(loadingMessageId);
+        addAIMessage('Please sign in to chat with the AI career coach. Your conversation will be personalized based on your CV analysis.');
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        return;
+      }
+
+      const requestUrl = `${CHAT_API_BASE_URL}/career-chat`;
+      const requestBody = JSON.stringify({ message: message });
+      console.log('Calling career-chat endpoint:', requestUrl);
+      console.log('Request body:', requestBody);
+      console.log('Request headers:', {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken.substring(0, 20)}...`,
+      });
+
+      // Call career-chat endpoint
+      const response = await fetch(requestUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: requestBody,
+      });
+
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
+      // Remove loading message
+      removeMessage(loadingMessageId);
+
+      if (!response.ok) {
+        // Handle different error statuses
+        let errorMessage = 'AI is currently unavailable, please try again.';
+        
+        if (response.status === 401) {
+          errorMessage = 'Please sign in to use the AI career coach.';
+        } else if (response.status === 502 || response.status === 504) {
+          errorMessage = 'AI service is temporarily unavailable. Please try again in a moment.';
+        } else {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.detail || errorData.message || errorMessage;
+            console.log('Error response data:', errorData);
+          } catch (_) {
+            console.log('Could not parse error response as JSON');
+            // Use default error message
+          }
+        }
+        
+        console.log('Showing error message:', errorMessage);
+        addAIMessage(`❌ ${errorMessage}`);
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        return;
+      }
+
+      // Parse response
+      const data = await response.json();
+      console.log('Response data:', data);
+      const assistantReply = data.answer || 'I apologize, but I could not generate a response. Please try again.';
+      console.log('Assistant reply:', assistantReply);
+
+      // Display AI's reply
+      addAIMessage(assistantReply);
+
+    } catch (error) {
+      console.error('Error calling career-chat:', error);
+      console.error('Error stack:', error.stack);
+      removeMessage(loadingMessageId);
+      
+      // Network errors or other exceptions
+      let errorMessage = 'AI is currently unavailable, please try again.';
+      if (error.message && error.message.includes('fetch')) {
+        errorMessage = 'Network error. Please check your connection and try again.';
+      }
+      
+      addAIMessage(`❌ ${errorMessage}`);
+    } finally {
+      // Re-enable input and send button
+      chatInput.disabled = false;
+      sendBtn.disabled = false;
+      chatInput.focus(); // Return focus to input for better UX
+      console.log('sendMessage() completed');
+    }
   }
 
   // Add user message to chat
@@ -328,7 +490,10 @@ document.addEventListener('DOMContentLoaded', function () {
     row.appendChild(avatar);
     row.appendChild(bubble);
     chatWindow.appendChild(row);
-    
+
+    // Hide empty message when first message is added
+    checkChatEmpty();
+
     // Scroll to bottom
     scrollToBottom();
   }
@@ -347,7 +512,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Add AI message to chat
   function addAIMessage(text) {
-    return addAIMessageWithId(text);
+    const id = addAIMessageWithId(text);
+    // Hide empty message when message is added
+    checkChatEmpty();
+    return id;
   }
 
   // Show error message
@@ -359,6 +527,17 @@ document.addEventListener('DOMContentLoaded', function () {
   // Scroll chat window to bottom
   function scrollToBottom() {
     chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  // Initialize: check if chat is empty on load
+  if (emptyMessage && chatWindow) {
+    const chatRows = chatWindow.querySelectorAll('.cv-chat-row');
+    if (chatRows.length > 0) {
+      emptyMessage.style.display = 'none';
+    } else {
+      emptyMessage.style.display = 'block';
+      startStreaming();
+    }
   }
 });
 

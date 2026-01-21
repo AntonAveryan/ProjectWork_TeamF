@@ -218,18 +218,29 @@ body.cv-body::before {
 }
 
 .cv-chat-window {
-  max-height: 420px;
+  height: 420px;
   overflow-y: auto;
   padding: 18px 16px;
   margin-bottom: 18px;
   background: #fff7f3;
   border-radius: 20px;
   transition: border 0.2s ease;
+  position: relative;
 }
 
 .cv-chat-window.cv-drag-over {
   border: 2px dashed #ff7b93;
   background: #fffaf6;
+}
+
+.cv-chat-empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #876e65;
+  font-size: 16px;
+  font-style: italic;
 }
 
 .cv-chat-row {
@@ -316,6 +327,13 @@ body.cv-body::before {
   background: #f7eae3;
   transition: background 0.2s ease, border 0.2s ease;
   position: relative;
+}
+
+.cv-positions-btn {
+  font-size: 14px;
+  padding: 8px 16px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .cv-chat-input-row.cv-drag-over {

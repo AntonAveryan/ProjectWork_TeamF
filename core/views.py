@@ -16,3 +16,8 @@ def chat(request):
 def positions(request):
     # Jobs are now fetched via JavaScript from the backend API
     return render(request, 'core/positions.html')
+
+
+def favorites(request):
+    # Favorite jobs are rendered on the client from localStorage + backend
+    return render(request, 'core/favorites.html')
