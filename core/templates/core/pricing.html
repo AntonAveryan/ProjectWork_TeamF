@@ -25,11 +25,12 @@
     <div class="cv-hiw-card cv-pricing-card">
       <h3 class="cv-hiw-title">{% trans "Current status: Free to use" %}</h3>
 
-      <ul class="cv-steps-list">
-        <li>{% trans "No credit card required." %}</li>
-        <li>{% trans "No hidden plans or upsells." %}</li>
-        <li>{% trans "Use it, break it, tell us what feels confusing." %}</li>
-      </ul>
+      <p class="cv-subtitle">
+        {% trans "No credit card required." %}<br>
+        {% trans "No hidden plans or upsells." %}<br>
+        {% trans "Use it, break it, tell us what feels confusing." %}<br><br>
+      </p>
+
 
       <p class="cv-hiw-text">
         {% blocktrans %}
@@ -45,12 +46,12 @@
 
     <p class="cv-body-text">
       {% blocktrans %}
-      In the future, we might explore premium features — but for now,
+      In the future, we might explore premium features. For now,
       just enjoy using it and focus on your next step.
       {% endblocktrans %}
     </p>
 
-    <a href="{% url 'landing' %}" class="cv-primary-btn cv-primary-btn-big">
+    <a href="{% url 'chat' %}" class="cv-primary-btn cv-primary-btn-big">
       {% trans "Start now →" %}
     </a>
   </div>

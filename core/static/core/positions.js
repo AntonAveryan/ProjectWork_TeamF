@@ -2,7 +2,7 @@
 const JOBS_API_BASE_URL = (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : 'http://localhost:8000';
 
 document.addEventListener('DOMContentLoaded', function () {
-  // --- DOM элементы ---
+  // --- DOM elements ---
   const jobList = document.getElementById('jobList');
   const loadingState = document.getElementById('loadingState');
   const errorState = document.getElementById('errorState');
@@ -12,24 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const cityInput = document.getElementById('cityInput');
   const searchJobsBtn = document.getElementById('searchJobsBtn');
   
-  const sortBtn = document.getElementById('sortBtn');
   const refreshBtn = document.getElementById('refreshBtn');
-  const favoritesBtn = document.getElementById('favoritesBtn');
-  const sortModal = document.getElementById('sortModal');
-
-  const sortDateSelect = document.getElementById('sortDateSelect');
-  const levelSelect = document.getElementById('levelSelect');
-  const companySelect = document.getElementById('companySelect');
-  const modeSelect = document.getElementById('modeSelect');
-
-  const clearFilterBtn = document.getElementById('clearFilterBtn');
-  const applyFilterBtn = document.getElementById('applyFilterBtn');
 
   // --- State ---
   let allJobs = []; // All jobs from API
   let jobCards = []; // DOM elements
   let favorites = loadFavorites();
-  let favoritesMode = false;
   let currentCity = 'London'; // Default city
 
   const FAV_KEY = 'cv_favorites';
@@ -172,9 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update favorites buttons
     updateFavButtons();
-    
-    // Update company select with unique companies
-    updateCompanySelect(jobs);
   }
 
   // --- Create Job Card ---
@@ -299,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function () {
         saveFavorites();
         saveFavoriteJobsMap(favoriteJobsMap);
         updateFavButtons();
-        applyFavoritesFilter();
 
         // Also persist to backend /favorites endpoint
         try {
@@ -444,92 +428,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       showError('Please enter a city first.');
     }
-  });
-
-  // Favorites filter
-  favoritesBtn.addEventListener('click', () => {
-    favoritesMode = !favoritesMode;
-    favoritesBtn.classList.toggle('active', favoritesMode);
-    applyFavoritesFilter();
-  });
-
-  // Sort modal
-  sortBtn.addEventListener('click', () => {
-    sortModal.classList.add('show');
-  });
-
-  sortModal.addEventListener('click', (e) => {
-    if (e.target === sortModal) {
-      sortModal.classList.remove('show');
-    }
-  });
-
-  // Apply filters
-  function applyFavoritesFilter() {
-    if (!favoritesMode) {
-      jobCards.forEach(card => {
-        card.style.display = '';
-      });
-      return;
-    }
-
-    jobCards.forEach(card => {
-      const urn = card.dataset.jobUrn;
-      card.style.display = favorites.includes(urn) ? '' : 'none';
-    });
-  }
-
-  function applySortAndFilters() {
-    let filtered = jobCards.slice();
-
-    const level = levelSelect.value;
-    const company = companySelect.value;
-    const mode = modeSelect.value;
-
-    // Filter
-    filtered = filtered.filter(card => {
-      const cardLevel = card.dataset.level;
-      const cardCompany = card.dataset.company;
-      const cardMode = card.dataset.mode;
-
-      if (level && cardLevel !== level) return false;
-      if (company && cardCompany !== company) return false;
-      if (mode && cardMode !== mode) return false;
-
-      return true;
-    });
-
-    // Sort by date
-    const order = sortDateSelect.value;
-    filtered.sort((a, b) => {
-      const da = new Date(a.dataset.date);
-      const db = new Date(b.dataset.date);
-      return order === 'newest' ? (db - da) : (da - db);
-    });
-
-    // Re-render order
-    filtered.forEach(card => jobList.appendChild(card));
-
-    applyFavoritesFilter();
-  }
-
-  applyFilterBtn.addEventListener('click', () => {
-    applySortAndFilters();
-    sortModal.classList.remove('show');
-  });
-
-  clearFilterBtn.addEventListener('click', () => {
-    sortDateSelect.value = 'newest';
-    levelSelect.value = '';
-    companySelect.value = '';
-    modeSelect.value = '';
-
-    jobCards.forEach(card => {
-      card.style.display = '';
-      jobList.appendChild(card);
-    });
-
-    applyFavoritesFilter();
   });
 
   // Auto-load jobs on page load if city is set
