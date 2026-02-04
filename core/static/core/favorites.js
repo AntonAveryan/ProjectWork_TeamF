@@ -141,6 +141,11 @@ document.addEventListener('DOMContentLoaded', function () {
         applyButtonHtml = `<button class="cv-primary-btn cv-apply-btn" disabled style="opacity: 0.5; cursor: not-allowed;">No link available</button>`;
       }
 
+      // GET /favorites returns each item with id (number). Use for DELETE /favorites/{id}.
+      const favoriteId = typeof job.id === 'number' ? job.id : (job.id != null && job.id !== '' ? Number(job.id) : NaN);
+      const hasValidId = Number.isFinite(favoriteId);
+      const removeBtnHtml = `<button type="button" class="cv-remove-fav-btn" data-favorite-id="${hasValidId ? favoriteId : ''}" title="Remove from favorites" ${hasValidId ? '' : 'disabled'}>Remove</button>`;
+
       card.innerHTML = `
         <div class="cv-job-main">
           <div class="cv-job-logo">
@@ -154,12 +159,59 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         </div>
         <div class="cv-job-actions">
+          ${removeBtnHtml}
           ${applyButtonHtml}
         </div>
       `;
 
+      const removeBtn = card.querySelector('.cv-remove-fav-btn');
+      if (removeBtn && hasValidId) {
+        removeBtn.addEventListener('click', () => deleteFavoriteAndRemoveCard(removeBtn, card, favoriteId));
+      }
+
       favoritesList.appendChild(card);
     });
+  }
+
+  async function deleteFavoriteAndRemoveCard(buttonEl, cardEl, favoriteId) {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      showError('Please sign in to remove favorites.');
+      return;
+    }
+
+    buttonEl.disabled = true;
+    buttonEl.textContent = '…';
+
+    try {
+      const response = await fetch(`${FAVORITES_API_BASE_URL}/favorites/${favoriteId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 204 || response.status === 404) {
+        cardEl.remove();
+        const remaining = favoritesList.querySelectorAll('.cv-job-card');
+        if (remaining.length === 0) {
+          showEmpty();
+        }
+      } else {
+        let msg = 'Failed to remove favorite.';
+        try {
+          const data = await response.json();
+          msg = data.detail || msg;
+        } catch (_) {}
+        showError(msg);
+      }
+    } catch (err) {
+      console.error('Delete favorite error:', err);
+      showError('Could not remove favorite. Please try again.');
+    } finally {
+      buttonEl.disabled = false;
+      buttonEl.textContent = 'Remove';
+    }
   }
 
   // Init

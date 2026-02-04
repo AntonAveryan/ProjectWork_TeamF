@@ -529,15 +529,111 @@ document.addEventListener('DOMContentLoaded', function () {
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
-  // Initialize: check if chat is empty on load
-  if (emptyMessage && chatWindow) {
-    const chatRows = chatWindow.querySelectorAll('.cv-chat-row');
-    if (chatRows.length > 0) {
-      emptyMessage.style.display = 'none';
-    } else {
-      emptyMessage.style.display = 'block';
-      startStreaming();
+  // --- Career chat history (GET /career-chat/history, DELETE /career-chat/history) ---
+  const DEFAULT_GREETING = 'Hi, how can I help you? Upload your CV and I will analyze and help find positions.';
+
+  function clearChatRows() {
+    chatWindow.querySelectorAll('.cv-chat-row').forEach(row => row.remove());
+  }
+
+  function restoreDefaultGreeting() {
+    addAIMessage(DEFAULT_GREETING);
+    checkChatEmpty();
+    scrollToBottom();
+  }
+
+  async function deleteChatHistory() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      addAIMessage('Please sign in to clear chat history.');
+      return;
     }
+
+    const btn = document.getElementById('cv-clear-history-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '…';
+    }
+
+    try {
+      const response = await fetch(`${CHAT_API_BASE_URL}/career-chat/history`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 204) {
+        clearChatRows();
+        restoreDefaultGreeting();
+      } else {
+        let msg = 'Failed to clear history.';
+        try {
+          const data = await response.json();
+          msg = data.detail || msg;
+        } catch (_) {}
+        addAIMessage(`❌ ${msg}`);
+      }
+    } catch (e) {
+      console.error('Delete chat history error', e);
+      addAIMessage('❌ Could not clear history. Please try again.');
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.resetLabel || 'Clear history';
+      }
+    }
+  }
+
+  const clearHistoryBtn = document.getElementById('cv-clear-history-btn');
+  if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener('click', deleteChatHistory);
+  }
+
+  async function fetchChatHistory() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) return;
+
+    try {
+      const response = await fetch(`${CHAT_API_BASE_URL}/career-chat/history`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) return;
+
+      const messages = await response.json();
+      if (!Array.isArray(messages) || messages.length === 0) return;
+
+      clearChatRows();
+      messages.forEach(function (msg) {
+        if (msg.role === 'user') {
+          addUserMessage(msg.content || '');
+        } else {
+          addAIMessage((msg.content || '').trim() || '\u00A0');
+        }
+      });
+      checkChatEmpty();
+      scrollToBottom();
+    } catch (e) {
+      console.warn('Failed to load chat history', e);
+    }
+  }
+
+  // Initialize: load history if signed in, then check empty state
+  if (emptyMessage && chatWindow) {
+    fetchChatHistory().then(function () {
+      const chatRows = chatWindow.querySelectorAll('.cv-chat-row');
+      if (chatRows.length > 0) {
+        emptyMessage.style.display = 'none';
+        stopStreaming();
+      } else {
+        emptyMessage.style.display = 'block';
+        startStreaming();
+      }
+    });
   }
 });
 

@@ -4,11 +4,12 @@
 {% block content %}
 <div class="cv-card cv-card-chat">
 
-  <!-- Small back link inside the card -->
+  <!-- Small back link and clear history -->
   <div class="cv-card-top-row">
     <a href="{% url 'landing' %}" class="cv-back-link">
       ← {% trans "Back to start" %}
     </a>
+    <button type="button" id="cv-clear-history-btn" class="cv-clear-history-btn" title="{% trans 'Delete all chat messages' %}" data-reset-label="{% trans 'Clear history' %}">{% trans "Clear history" %}</button>
   </div>
 
   <div class="cv-card-title-wrap">
@@ -43,5 +44,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script src="{% static 'core/chat.js' %}?v=2"></script>
+<script src="{% static 'core/chat.js' %}?v=4"></script>
 {% endblock %}
