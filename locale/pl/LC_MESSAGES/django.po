@@ -187,6 +187,9 @@ msgstr ""
 "szczegółowo.\n"
 "          "
 
+#: .\core\templates\core\chat.html:76
+msgid "Hi, how can I help you? Upload your CV and I will analyze and help find positions."
+msgstr "Cześć, w czym mogę pomóc? Prześlij swoje CV, a ja je przeanalizuję i pomogę znaleźć odpowiednie stanowiska."
 
 #: .\core\templates\core\base.html:59
 msgid "Username"
@@ -247,17 +250,15 @@ msgstr "Studenci"
 
 #: .\core\templates\core\how_it_works.html:29
 msgid ""
-"\n"
-"          You’re just starting out — we help you choose a direction that "
-"matches your potential, not just your degree.\n"
+"\n          Just starting out? We help you choose a direction that matches your "
+"potential, not just your degree.\n"
 "          "
 msgstr ""
 "\n"
-"          Dopiero zaczynasz — pomożemy ci wybrać kierunek, który pasuje do "
+"          Dopiero zaczynasz, pomożemy ci wybrać kierunek, który pasuje do "
 "twojego potencjału,\n"
 "          a nie tylko do dyplomu.\n"
 "          "
-
 #: .\core\templates\core\how_it_works.html:36
 msgid "Graduates"
 msgstr "Absolwenci"
@@ -299,13 +300,13 @@ msgstr "Staże i role juniorów"
 msgid ""
 "\n"
 "          No experience? No problem. We focus on skills, motivation, and "
-"hidden strengths — not job titles.\n"
+"hidden strengths, not job titles.\n"
 "          "
 msgstr ""
 "\n"
 "          Brak doświadczenia? Żaden problem. Skupiamy się na umiejętnościach, "
 "motywacji\n"
-"          i ukrytych mocnych stronach — nie na nazwach stanowisk.\n"
+"          i ukrytych mocnych stronach, nie na nazwach stanowisk.\n"
 "          "
 
 #: .\core\templates\core\how_it_works.html:66
@@ -336,8 +337,8 @@ msgstr "Analiza AI"
 #: .\core\templates\core\how_it_works.html:83
 msgid ""
 "\n"
-"          Our model finds strengths, transferable skills, and suitable roles "
-"— instantly.\n"
+"\n          Our model finds strengths, transferable skills, and suitable "
+"roles, instantly.\n"
 "          "
 msgstr ""
 "\n"
@@ -543,6 +544,18 @@ msgstr "Wyczyść wszystko"
 msgid "Apply filter"
 msgstr "Zastosuj filtr"
 
+#: .\core\templates\core\favorites.html:116
+msgid "Your favorite jobs"
+msgstr "Twoje ulubione zadania"
+
+#: .\core\templates\core\favorites.html:117
+msgid "Jobs you saved while browsing recommendations."
+msgstr "Oferty pracy zapisane podczas przeglądania rekomendacji."
+
+#: .\core\templates\core\favorites.html:118
+msgid "Back to positions"
+msgstr "Powrót do pozycji"
+
 #: .\core\templates\core\pricing.html:9
 msgid "Right now, CareerVision is in a testing & learning phase."
 msgstr "Obecnie CareerVision jest w fazie testów i zbierania doświadczeń."
@@ -587,24 +600,28 @@ msgstr "Korzystaj, psuj i daj nam znać, co jest niejasne."
 #: .\core\templates\core\pricing.html:35
 msgid ""
 "\n"
-"        If you have feedback, feature ideas or just want to say hi —\n"
+"        If you have feedback, feature ideas or just want to say hi,\n"
 "        drop a line to:\n"
 "        "
 msgstr ""
 "\n"
 "        Jeśli masz uwagi, pomysły na funkcje albo po prostu chcesz się "
-"przywitać —\n"
+"przywitać,\n"
 "        napisz na:\n"
 "        "
 
 #: .\core\templates\core\pricing.html:47
 msgid ""
-"\n"
-"      In the future, we might explore premium features — but for now,\n"
-"      just enjoy using it and focus on your next step.\n"
-"      "
+"In the future, we might explore premium features. For now, just enjoy using it and focus on your next step."
 msgstr ""
-"\n"
-"      W przyszłości być może wprowadzimy funkcje premium — ale na razie\n"
+"      W przyszłości być może wprowadzimy funkcje premium, ale na razie\n"
 "      po prostu korzystaj z narzędzia i skup się na swoim kolejnym kroku.\n"
 "      "
+
+#: .\core\templates\core\base.html:
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: .\core\templates\core\positions.html:
+msgid "Search jobs in city"
+msgstr "Wyszukaj oferty pracy w mieście"

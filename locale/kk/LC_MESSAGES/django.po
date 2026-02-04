@@ -167,6 +167,9 @@ msgstr ""
 "          Қосымша сұрақтарыңыз болса, қадамдарды толығырақ түсіндіріп беремін.\n"
 "          "
 
+#: .\core\templates\core\chat.html:76
+msgid "Hi, how can I help you? Upload your CV and I will analyze and help find positions."
+msgstr "Сәлем, қалай көмектесе аламын?  Түйіндемеңізді жүктеңіз, мен оны талдап, лауазымдар табуға көмектесемін."
 
 #: .\core\templates\core\base.html:59
 msgid "Username"
@@ -219,11 +222,11 @@ msgstr "Студенттер"
 
 #: .\core\templates\core\how_it_works.html:29
 msgid ""
-"\n          You’re just starting out — we help you choose a direction that "
-"matches your potential, not just your degree.\n"
+"\n          Just starting out? We help you choose a direction that matches your "
+"potential, not just your degree.\n"
 "          "
 msgstr ""
-"\n          Сіз жаңа бастап жатырсыз — біз сізге тек дипломға емес, сіздің әлеуетіңізге сай бағыт таңдауға көмектесеміз.\n"
+"\n          Сіз жаңа бастап жатырсыз, біз сізге тек дипломға емес, сіздің әлеуетіңізге сай бағыт таңдауға көмектесеміз.\n"
 "          "
 
 #: .\core\templates\core\how_it_works.html:36
@@ -259,7 +262,7 @@ msgstr "Тәжірибеден өту және бастапқы деңгей"
 #: .\core\templates\core\how_it_works.html:56
 msgid ""
 "\n          No experience? No problem. We focus on skills, motivation, and "
-"hidden strengths — not job titles.\n"
+"hidden strengths, not job titles.\n"
 "          "
 msgstr ""
 "\n          Тәжірибе жоқ па? Мәселе емес. Біз лауазым атауына емес, дағдыларға, мотивацияға және жасырын күштерге мән береміз.\n"
@@ -288,8 +291,8 @@ msgstr "AI талдауы"
 
 #: .\core\templates\core\how_it_works.html:83
 msgid ""
-"\n          Our model finds strengths, transferable skills, and suitable roles "
-"— instantly.\n"
+"\n          Our model finds strengths, transferable skills, and suitable "
+"roles, instantly.\n"
 "          "
 msgstr ""
 "\n          Біздің модель бірден мықты жақтарды, ауысатын дағдыларды және сәйкес рөлдерді анықтайды.\n"
@@ -476,6 +479,18 @@ msgstr "Барлығын тазарту"
 msgid "Apply filter"
 msgstr "Фильтрді қолдану"
 
+#: .\core\templates\core\favorites.html:116
+msgid "Your favorite jobs"
+msgstr "Сіздің сүйікті жұмыстарыңыз"
+
+#: .\core\templates\core\favorites.html:117
+msgid "Jobs you saved while browsing recommendations."
+msgstr "Ұсыныстарды қарап жүріп сақтаған жұмыс орындары."
+
+#: .\core\templates\core\favorites.html:118
+msgid "Back to positions"
+msgstr "Орындарға оралу"
+
 #: .\core\templates\core\pricing.html:9
 msgid "Right now, CareerVision is in a testing & learning phase."
 msgstr "Қазір CareerVision тестілеу және үйрену кезеңінде."
@@ -514,20 +529,26 @@ msgstr "Пайдаланыңыз, бұзыңыз, не түсініксіз ек
 
 #: .\core\templates\core\pricing.html:35
 msgid ""
-"\n        If you have feedback, feature ideas or just want to say hi —\n"
+"\n        If you have feedback, feature ideas or just want to say hi,\n"
 "        drop a line to:\n"
 "        "
 msgstr ""
-"\n        Егер пікіріңіз, идеяларыңыз немесе сәлем айтқыңыз келсе —\n"
+"\n        Егер пікіріңіз, идеяларыңыз немесе сәлем айтқыңыз келсе,\n"
 "        мына адреске жазыңыз:\n"
 "        "
 
 #: .\core\templates\core\pricing.html:47
 msgid ""
-"\n      In the future, we might explore premium features — but for now,\n"
-"      just enjoy using it and focus on your next step.\n"
-"      "
+"In the future, we might explore premium features. For now, just enjoy using it and focus on your next step."
 msgstr ""
-"\n      Болашақта премиум мүмкіндіктер болуы мүмкін — бірақ әзірге,\n"
-"      жай ғана пайдаланып, келесі қадамыңызға назар аударыңыз.\n"
+"Болашақта премиум мүмкіндіктер болуы мүмкін, бірақ әзірге,"
+"      жай ғана пайдаланып, келесі қадамыңызға назар аударыңыз."
 "      "
+
+#: .\core\templates\core\base.html:
+msgid "Logout"
+msgstr "Шығу"
+
+#: .\core\templates\core\positions.html:
+msgid "Search jobs in city"
+msgstr "Қаладағы жұмыс орындарын іздеу"

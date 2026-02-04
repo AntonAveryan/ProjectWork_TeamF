@@ -42,18 +42,18 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function updateUI() {
-    if (isRegisterMode) {
-      titleEl.textContent = 'Register';
-      subtitleEl.textContent = 'Create a new account to get started.';
-      submitBtn.textContent = 'Register';
-      toggleModeBtn.textContent = 'Sign in';
-    } else {
-      titleEl.textContent = 'Sign in';
-      subtitleEl.textContent = 'Come back to your AI-powered career space.';
-      submitBtn.textContent = 'Sign in';
-      toggleModeBtn.textContent = 'Register';
-    }
+  if (isRegisterMode) {
+    titleEl.textContent = I18N.register;
+    subtitleEl.textContent = I18N.registerSubtitle;
+    submitBtn.textContent = I18N.register;
+    toggleModeBtn.textContent = I18N.signIn;
+  } else {
+    titleEl.textContent = I18N.signIn;
+    subtitleEl.textContent = I18N.signInSubtitle;
+    submitBtn.textContent = I18N.signIn;
+    toggleModeBtn.textContent = I18N.register;
   }
+}
 
   function showError(message) {
     errorEl.textContent = message;
@@ -269,14 +269,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (signInBtn) {
       if (isAuthenticated && userData) {
         // Update sign in button to show username or logout
-        signInBtn.textContent = `${userData.username} (Logout)`;
+        signInBtn.textContent = `${userData.username} (${I18N.logout})`;
         signInBtn.onclick = async (e) => {
           e.preventDefault();
           await logout();
           window.location.reload();
         };
       } else {
-        signInBtn.textContent = 'Sign in';
+        signInBtn.textContent = I18N.signIn;
         signInBtn.onclick = (e) => {
           e.preventDefault();
           openModal();

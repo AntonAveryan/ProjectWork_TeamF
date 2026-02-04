@@ -90,6 +90,19 @@
 
   </div>
 
+
+  <!-- translation for otherwise static JavaScript updateUI text -->
+  <script>
+      window.I18N = {
+        signIn: "{% trans 'Sign in' %}",
+        register: "{% trans 'Register' %}",
+        logout: "{% trans 'Logout' %}",
+
+
+        signInSubtitle: "{% trans 'Come back to your AI-powered career space.' %}",
+      };
+  </script>
+
   <!-- global login script -->
   <script src="{% static 'core/login.js' %}"></script>
   {% block extra_scripts %}{% endblock %}
