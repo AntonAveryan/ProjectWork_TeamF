@@ -178,19 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     card.dataset.jobUrn = jobUrn;
     card.dataset.company = jobCompany;
-    card.dataset.level = ''; // API doesn't provide level, but we can extract from title
-    card.dataset.mode = ''; // API doesn't provide mode
     card.dataset.date = new Date().toISOString().split('T')[0]; // Use current date as fallback
-
-    // Extract level from title if possible
-    const titleLower = jobTitle.toLowerCase();
-    if (titleLower.includes('senior') || titleLower.includes('sr.')) {
-      card.dataset.level = 'Senior';
-    } else if (titleLower.includes('junior') || titleLower.includes('jr.')) {
-      card.dataset.level = 'Junior';
-    } else if (titleLower.includes('mid') || titleLower.includes('middle')) {
-      card.dataset.level = 'Mid';
-    }
 
     // Company logo (first 3 letters or initials)
     let companyLogo = 'JOB';
