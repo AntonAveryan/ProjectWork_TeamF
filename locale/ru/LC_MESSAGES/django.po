@@ -622,3 +622,6 @@ msgstr "Выйти"
 #: .\core\templates\core\positions.html:
 msgid "Search jobs in city"
 msgstr "Поиск вакансий в городе"
+
+msgid "Chat"
+msgstr "Чат"

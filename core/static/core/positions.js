@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let allJobs = []; // All jobs from API
   let jobCards = []; // DOM elements
   let favorites = loadFavorites();
-  let currentCity = 'London'; // Default city
+  let currentCity = 'Heilbronn'; // Default city
 
   const FAV_KEY = 'cv_favorites';
   const FAV_JOBS_KEY = 'cv_favorite_jobs';
@@ -304,18 +304,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     return card;
-  }
-
-  // --- Update Company Select ---
-  function updateCompanySelect(jobs) {
-    const companies = [...new Set(jobs.map(j => j.company).filter(Boolean))].sort();
-    companySelect.innerHTML = '<option value="">Any</option>';
-    companies.forEach(company => {
-      const option = document.createElement('option');
-      option.value = company;
-      option.textContent = company;
-      companySelect.appendChild(option);
-    });
   }
 
   // --- Backend Favorites API ---

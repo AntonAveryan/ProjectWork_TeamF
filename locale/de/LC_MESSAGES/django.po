@@ -562,4 +562,5 @@ msgstr ""
 "In Zukunft könnten wir Premium-Funktionen erkunden. Fürs Erste\n"
 "genieße die Nutzung und konzentriere dich auf deinen nächsten Schritt."
 
-
+msgid "Chat"
+msgstr "Chat"

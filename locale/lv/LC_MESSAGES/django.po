@@ -575,3 +575,6 @@ msgstr "Iziet"
 #: .\core\templates\core\positions.html:
 msgid "Search jobs in city"
 msgstr "Meklēt darbu pilsētā"
+
+msgid "Chat"
+msgstr "Tērzēšana"

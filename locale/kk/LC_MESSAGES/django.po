@@ -552,3 +552,6 @@ msgstr "Шығу"
 #: .\core\templates\core\positions.html:
 msgid "Search jobs in city"
 msgstr "Қаладағы жұмыс орындарын іздеу"
+
+msgid "Chat"
+msgstr "Чат"

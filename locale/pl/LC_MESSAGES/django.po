@@ -625,3 +625,6 @@ msgstr "Wyloguj"
 #: .\core\templates\core\positions.html:
 msgid "Search jobs in city"
 msgstr "Wyszukaj oferty pracy w mieście"
+
+msgid "Chat"
+msgstr "Czat"
