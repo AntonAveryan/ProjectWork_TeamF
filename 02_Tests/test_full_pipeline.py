@@ -1,6 +1,6 @@
 """
 Full Pipeline Testing Script
-Tests the complete workflow:
+02_Tests the complete workflow:
 1. Register & Login
 2. Upload PDF and extract career fields
 3. Scrape jobs using career fields and skills

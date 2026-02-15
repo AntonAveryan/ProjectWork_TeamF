@@ -2,7 +2,7 @@
 
 Welcome! This document will help you integrate with the backend API.
 
-## 🚀 Quick Start
+## Quick Start
 
 1. **Server must be running:**
    ```bash
@@ -19,13 +19,13 @@ Welcome! This document will help you integrate with the backend API.
    - Swagger UI: http://localhost:8000/docs
    - ReDoc: http://localhost:8000/redoc
 
-## 📚 Documentation Files
+## Documentation Files
 
 - **`API_DOCUMENTATION.md`** - Complete API reference (READ THIS FIRST!)
 - **`QUICK_REFERENCE.md`** - Quick lookup for endpoints
 - **`EXAMPLE_REQUESTS.http`** - Example requests for testing
 
-## 🔑 Authentication Flow
+## Authentication Flow
 
 ### Step-by-Step
 
@@ -67,14 +67,14 @@ Welcome! This document will help you integrate with the backend API.
    // Clear tokens from storage
    ```
 
-## 💡 Important Notes
+## Important Notes
 
-### ⚠️ Login Endpoint Uses Form Data
+### Login Endpoint Uses Form Data
 
 The `/login` endpoint expects `application/x-www-form-urlencoded`, NOT JSON!
 
 ```javascript
-// ✅ Correct
+// Correct
 const formData = new URLSearchParams();
 formData.append('username', username);
 formData.append('password', password);
@@ -85,7 +85,7 @@ fetch('/login', {
   body: formData
 });
 
-// ❌ Wrong
+// Wrong
 fetch('/login', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -93,7 +93,7 @@ fetch('/login', {
 });
 ```
 
-### 🔄 Token Refresh Pattern
+### Token Refresh Pattern
 
 Always handle token expiration:
 
@@ -127,7 +127,7 @@ async function apiCall(url, options = {}) {
 }
 ```
 
-### 📄 PDF Upload
+### PDF Upload
 
 PDF extraction doesn't require authentication:
 
@@ -142,7 +142,7 @@ const response = await fetch('http://localhost:8000/extract-text', {
 });
 ```
 
-## 🛠️ Recommended Setup
+## Recommended Setup
 
 ### Using Axios (Recommended)
 
@@ -225,7 +225,7 @@ export async function refreshToken() {
 }
 ```
 
-## 📦 Example React Hook
+## Example React Hook
 
 ```typescript
 // useAuth.ts
@@ -299,7 +299,7 @@ export function useAuth() {
 }
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Test Authentication Flow
 
@@ -317,7 +317,7 @@ export function useAuth() {
 2. Upload to `/extract-text`
 3. Check response for extracted text
 
-## 🐛 Common Issues
+## Common Issues
 
 ### CORS Errors
 - Make sure server is running
@@ -339,14 +339,14 @@ export function useAuth() {
 - Verify `Content-Type` is `multipart/form-data`
 - Don't manually set Content-Type header (browser does it)
 
-## 📞 Need Help?
+## Need Help?
 
-1. Check `API_DOCUMENTATION.md` for detailed info
+1. Check `BACKEND_API_DOCUMENTATION.md` for detailed info
 2. Use Swagger UI at http://localhost:8000/docs
 3. Check browser console for errors
 4. Check network tab for request/response details
 
-## ✅ Checklist for Integration
+## Checklist for Integration
 
 - [ ] Server is running on port 8000
 - [ ] Can access http://localhost:8000/docs

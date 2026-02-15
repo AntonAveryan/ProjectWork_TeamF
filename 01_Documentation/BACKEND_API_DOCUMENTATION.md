@@ -1,77 +1,38 @@
 # Backend API Documentation
 
-**Base URL:** `http://localhost:8000`  
-**API Version:** 1.0  
+**Base URL**: `http://localhost:8000`
+**API Docs**: `http://localhost:8000/docs` (Swagger UI)
 **Framework:** FastAPI
+
 
 ---
 
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Authentication](#authentication)
 3. [Endpoints](#endpoints)
 4. [Data Models](#data-models)
 5. [Error Handling](#error-handling)
 6. [Code Examples](#code-examples)
 7. [Interactive Documentation](#interactive-documentation)
+8. [Front-End Implementation Guide](#frontend-implementation-guide)
 
----
-
-## Overview
-
+# Overivew
 This API provides:
 - **User Authentication** (Registration, Login, Token Management)
 - **PDF Text Extraction** (Upload PDF, Extract Text)
 
-### Features
 
-- ✅ JWT-based authentication with access & refresh tokens
-- ✅ Password hashing (bcrypt)
-- ✅ Token rotation on refresh
-- ✅ CORS enabled for frontend integration
-- ✅ PDF text extraction (no storage, process and return)
+## Complete Pipeline Flow
 
-### Server Setup
-
-The server runs on `http://localhost:8000` by default.  
-**Interactive API Docs:** `http://localhost:8000/docs` (Swagger UI)
-
----
-
-## Authentication
-
-### Authentication Flow
-
-1. **Register** → Create user account
-2. **Login** → Get `access_token` and `refresh_token`
-3. **Use Access Token** → Include in `Authorization` header for protected endpoints
-4. **Refresh Token** → When access token expires, use refresh token to get new tokens
-5. **Logout** → Revoke refresh token
-
-### Token Types
-
-| Token Type | Expiration | Usage | Storage |
-|------------|-----------|-------|---------|
-| **Access Token** | 30 minutes | API requests | Client-side only |
-| **Refresh Token** | 7 days | Get new access tokens | Database (revocable) |
-
-### Token Usage
-
-**Access Token:**
-```
-Authorization: Bearer <access_token>
-```
-
-**Refresh Token:**
-Send in request body when calling `/refresh` endpoint.
+1. **User Registration** → Create account
+2. **User Login** → Get access token
+3. **Upload PDF (CV/Resume)** → Extract career fields & skills
+4. **Scrape Jobs** → Get job recommendations based on career fields & skills
 
 ---
 
 ## Endpoints
-
-### 1. Root Endpoint
-
 **GET** `/`
 
 Get API information and available endpoints.
@@ -97,9 +58,9 @@ Host: localhost:8000
 }
 ```
 
----
+### 1. Register User
 
-### 2. Register User
+**POST** `/register`
 
 **POST** `/register`
 
@@ -142,7 +103,9 @@ Content-Type: application/json
 
 ---
 
-### 3. Login
+---
+
+### 2. Login
 
 **POST** `/login`
 
@@ -185,133 +148,7 @@ username=john_doe&password=securepassword123
 
 ---
 
-### 4. Refresh Token
-
-**POST** `/refresh`
-
-Get new access and refresh tokens using a valid refresh token.
-
-**Request:**
-```http
-POST /refresh HTTP/1.1
-Host: localhost:8000
-Content-Type: application/json
-
-{
-  "refresh_token": "vPLpPXdOYR3gk3YT9xtF29IO9n-ZttndRCVur-X3jO8"
-}
-```
-
-**Response:** `200 OK`
-```json
-{
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "refresh_token": "BFYIKNo5NTGkoHTvj9x0HUbrRz54ZAvylhWMnw3shck",
-  "token_type": "bearer"
-}
-```
-
-**Error Responses:**
-
-`401 Unauthorized` - Invalid or expired refresh token
-```json
-{
-  "detail": "Invalid refresh token"
-}
-```
-
-or
-
-```json
-{
-  "detail": "Refresh token has expired"
-}
-```
-
-**Important:**
-- **Token Rotation:** The old refresh token is automatically deleted
-- **Always save the new refresh token** - the old one won't work anymore
-- Use this endpoint when access token expires (401 response)
-
----
-
-### 5. Logout
-
-**POST** `/logout`
-
-Revoke a refresh token (logout user).
-
-**Request:**
-```http
-POST /logout HTTP/1.1
-Host: localhost:8000
-Content-Type: application/json
-
-{
-  "refresh_token": "vPLpPXdOYR3gk3YT9xtF29IO9n-ZttndRCVur-X3jO8"
-}
-```
-
-**Response:** `200 OK`
-```json
-{
-  "message": "Successfully logged out"
-}
-```
-
-**Notes:**
-- This revokes the refresh token (can't be used again)
-- Access tokens remain valid until they expire
-- Call this when user explicitly logs out
-
----
-
-### 6. Get Current User
-
-**GET** `/me`
-
-Get information about the currently authenticated user.
-
-**Request:**
-```http
-GET /me HTTP/1.1
-Host: localhost:8000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-**Response:** `200 OK`
-```json
-{
-  "id": 1,
-  "username": "john_doe",
-  "is_active": true
-}
-```
-
-**Error Responses:**
-
-`401 Unauthorized` - Invalid or missing token
-```json
-{
-  "detail": "Could not validate credentials"
-}
-```
-
-or
-
-```json
-{
-  "detail": "Not authenticated"
-}
-```
-
-**Notes:**
-- Requires valid access token in `Authorization` header
-- Use this to verify token validity and get user info
-
----
-
-### 7. Extract PDF Text
+### 3. Upload PDF & Analyze Career Fields
 
 **POST** `/extract-text`
 
@@ -375,75 +212,186 @@ Content-Type: application/pdf
 
 ---
 
-## Data Models
+### 4. Scrape Jobs
 
-### UserCreate
+**GET** `/scrape-jobs?city=London&max_pages=1`
 
-Request model for user registration.
+**Query Parameters:**
+- `city` (required): City name (e.g., "London", "New York", "San Francisco")
+- `max_pages` (optional): Number of pages to scrape (default: 1, max: 3)
 
-```typescript
-interface UserCreate {
-  username: string;  // Required, unique
-  password: string;   // Required
+**Response:** `200 OK`
+```json
+{
+  "city": "London",
+  "max_pages": 1,
+  "total_jobs": 45,
+  "career_field_search": {
+    "career_field": {
+      "id": 1,
+      "field_name": "Software Engineering",
+      "summary": "Experience in..."
+    },
+    "keywords": "Software Engineering",
+    "jobs_found": 25,
+    "jobs": [
+      {
+        "title": "Senior Software Engineer",
+        "urn": "urn:li:fsd_jobPosting:123456",
+        "company": "Tech Corp",
+        "location": "London, UK",
+        "apply_link": "https://www.linkedin.com/jobs/view/123456",
+        "description": null,
+        "image": null
+      }
+    ]
+  },
+  "skills_search": {
+    "skills": [
+      {"id": 1, "skill_name": "Python"},
+      {"id": 2, "skill_name": "JavaScript"}
+    ],
+    "keywords": "Python JavaScript",
+    "jobs_found": 20,
+    "jobs": [...]
+  }
 }
 ```
 
-### UserResponse
-
-Response model for user information.
-
-```typescript
-interface UserResponse {
-  id: number;
-  username: string;
-  is_active: boolean;
+**Error:** `404 Not Found` - If no career fields or skills in database
+```json
+{
+  "detail": "No career fields found in database. Please upload PDFs first."
 }
 ```
 
-### Token
+---
 
-Response model for login/refresh endpoints.
+### 5. Refresh Token
 
-```typescript
-interface Token {
-  access_token: string;
-  refresh_token: string;
-  token_type: "bearer";
+**POST** `/refresh`
+
+Get new access and refresh tokens using a valid refresh token.
+
+**Request:**
+```http
+POST /refresh HTTP/1.1
+Host: localhost:8000
+Content-Type: application/json
+
+{
+  "refresh_token": "vPLpPXdOYR3gk3YT9xtF29IO9n-ZttndRCVur-X3jO8"
 }
 ```
 
-### TokenRefresh
-
-Request model for refresh/logout endpoints.
-
-```typescript
-interface TokenRefresh {
-  refresh_token: string;
+**Response:** `200 OK`
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "BFYIKNo5NTGkoHTvj9x0HUbrRz54ZAvylhWMnw3shck",
+  "token_type": "bearer"
 }
 ```
 
-### PDFExtractResponse
+**Error Responses:**
 
-Response model for PDF extraction.
-
-```typescript
-interface PDFExtractResponse {
-  filename: string;
-  text: string;
-  pages: number;
-  characters: number;
+`401 Unauthorized` - Invalid or expired refresh token
+```json
+{
+  "detail": "Invalid refresh token"
 }
 ```
 
-### ErrorResponse
+or
 
-Standard error response format.
-
-```typescript
-interface ErrorResponse {
-  detail: string;
+```json
+{
+  "detail": "Refresh token has expired"
 }
 ```
+
+**Important:**
+- **Token Rotation:** The old refresh token is automatically deleted
+- **Always save the new refresh token** - the old one won't work anymore
+- Use this endpoint when access token expires (401 response)
+
+---
+
+### 6. Logout
+
+**POST** `/logout`
+
+Revoke a refresh token (logout user).
+
+**Request:**
+```http
+POST /logout HTTP/1.1
+Host: localhost:8000
+Content-Type: application/json
+
+{
+  "refresh_token": "vPLpPXdOYR3gk3YT9xtF29IO9n-ZttndRCVur-X3jO8"
+}
+```
+
+**Response:** `200 OK`
+```json
+{
+  "message": "Successfully logged out"
+}
+```
+
+**Notes:**
+- This revokes the refresh token (can't be used again)
+- Access tokens remain valid until they expire
+- Call this when user explicitly logs out
+
+---
+
+### 7. Get Current User
+
+**GET** `/me`
+
+Get information about the currently authenticated user.
+
+**Request:**
+```http
+GET /me HTTP/1.1
+Host: localhost:8000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+**Response:** `200 OK`
+```json
+{
+  "id": 1,
+  "username": "john_doe",
+  "is_active": true
+}
+```
+
+**Error Responses:**
+
+`401 Unauthorized` - Invalid or missing token
+```json
+{
+  "detail": "Could not validate credentials"
+}
+```
+
+or
+
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+**Notes:**
+- Requires valid access token in `Authorization` header
+- Use this to verify token validity and get user info
+
+---
 
 ---
 
@@ -849,10 +797,10 @@ allow_origins=["http://localhost:3000", "https://yourdomain.com"]
 ```
 
 **Current Configuration:**
-- ✅ All origins allowed (development)
-- ✅ All methods allowed
-- ✅ All headers allowed
-- ✅ Credentials allowed
+- All origins allowed (development)
+- All methods allowed
+- All headers allowed
+- Credentials allowed
 
 ---
 
@@ -881,12 +829,12 @@ Currently, there is **no rate limiting** implemented. For production, consider a
 
 ### Current Security Features
 
-✅ Passwords hashed with bcrypt  
-✅ JWT tokens with expiration  
-✅ Token rotation on refresh  
-✅ Refresh token revocation  
-✅ CORS protection  
-✅ Input validation  
+* Passwords hashed with bcrypt  
+* JWT tokens with expiration  
+* Token rotation on refresh  
+* Refresh token revocation  
+* CORS protection  
+* Input validation  
 
 ---
 
@@ -917,6 +865,121 @@ For issues or questions:
 
 ---
 
-**Last Updated:** 2024  
-**API Version:** 1.0
+## Frontend Implementation Guide
 
+### Complete User Flow
+
+```javascript
+// 1. Register
+const registerResponse = await fetch('http://localhost:8000/register', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ username: 'john', password: 'pass123' })
+});
+
+// 2. Login
+const formData = new FormData();
+formData.append('username', 'john');
+formData.append('password', 'pass123');
+
+const loginResponse = await fetch('http://localhost:8000/login', {
+  method: 'POST',
+  body: formData
+});
+const { access_token, refresh_token } = await loginResponse.json();
+
+// 3. Upload PDF
+const pdfFormData = new FormData();
+pdfFormData.append('file', pdfFile);
+
+const uploadResponse = await fetch('http://localhost:8000/extract-text', {
+  method: 'POST',
+  headers: { 'Authorization': `Bearer ${access_token}` },
+  body: pdfFormData
+});
+const careerData = await uploadResponse.json();
+
+// 4. Scrape Jobs
+const jobsResponse = await fetch(
+  'http://localhost:8000/scrape-jobs?city=London&max_pages=1',
+  {
+    headers: { 'Authorization': `Bearer ${access_token}` }
+  }
+);
+const jobsData = await jobsResponse.json();
+```
+
+---
+
+## Error Responses
+
+**400 Bad Request** - Invalid input
+```json
+{
+  "detail": "Username already registered"
+}
+```
+
+**401 Unauthorized** - Invalid/missing token
+```json
+{
+  "detail": "Could not validate credentials"
+}
+```
+
+**404 Not Found** - Resource not found
+```json
+{
+  "detail": "No career fields found in database. Please upload PDFs first."
+}
+```
+
+**500 Internal Server Error** - Server error
+```json
+{
+  "detail": "Error processing PDF..."
+}
+```
+
+---
+
+## Important Notes
+
+- **Access tokens expire in 30 minutes** - Use refresh token to get new ones
+- **PDF upload requires authentication** to save data to database
+- **Job scraping** uses random career fields/skills from database - upload PDFs first
+- **CORS is enabled** - Frontend can call API from any origin
+- **PDF processing takes 30-60 seconds** - Show loading indicator
+
+---
+
+## Data Models
+
+### Career Field
+```json
+{
+  "field": "Software Engineering",
+  "summary": "Brief explanation...",
+  "key_skills_mentioned": ["Python", "JavaScript"]
+}
+```
+
+### Job
+```json
+{
+  "title": "Software Engineer",
+  "company": "Tech Corp",
+  "location": "London, UK",
+  "apply_link": "https://...",
+  "urn": "urn:li:fsd_jobPosting:123456"
+}
+```
+
+---
+
+## Testing
+
+Test the complete pipeline:
+```bash
+python test_full_pipeline_complete.py your_resume.pdf
+```
